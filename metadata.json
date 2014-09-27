@@ -1,0 +1,17 @@
+{
+  "name": "aimonb-autossh",
+  "version": "0.1.0",
+  "author": "aimonb",
+  "summary": "Manage Standard and Reverse SSH Tunnels",
+  "license": "Apache 2.0",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_range": ">= 1.0.0"
+    }
+  ]
+}
+

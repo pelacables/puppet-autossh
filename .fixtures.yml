@@ -1,0 +1,4 @@
+fixtures:
+    symlinks:
+        stdlib: "#{source_dir}/../stdlib"
+        autossh: "#{source_dir}"
