@@ -10,8 +10,8 @@ define autossh::tunnel(
   $enable           = true,
 ){
 
-  $tun_name = $title
-  $tunnel_args = $tunnel_type ? {
+  $tun_name     = $title
+  $tunnel_args  = $tunnel_type ? {
     'reverse' => "-M ${monitor_port} -f -N -R",
     'forward' => "-M ${monitor_port} -f -N -L"
   }
@@ -42,6 +42,7 @@ define autossh::tunnel(
   }
   service{"autossh-${tun_name}":
     ensure  =>  $enable,
+    enable  =>  $enable,
   }
 
   File['auto_ssh_conf_dir'] -> File["autossh-${tun_name}_conf"]

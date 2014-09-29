@@ -1,7 +1,55 @@
 {
   "RSpec": {
     "coverage": {
+      "/Users/abustardo/GIT_NexusIS/PUPPET/puppet-autossh/spec/defines/autossh_tunnel_spec.rb": [
+        1,
+        null,
+        1,
+        null,
+        5,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        4,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null
+      ]
     },
-    "timestamp": 1411767490
+    "timestamp": 1412013470
   }
 }
