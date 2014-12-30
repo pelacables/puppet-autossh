@@ -4,7 +4,7 @@ class autossh::install {
   if $::osfamily == 'RedHat' {
     file { "/var/tmp/${autossh_package}": 
       ensure => file,
-      source => "puppet://modules/autossh/${autossh_package}",
+      source => "puppet:///modules/autossh/${autossh_package}",
       owner  => root,
       group  => root,
       mode   => '0600'
