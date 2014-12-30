@@ -11,6 +11,10 @@ define autossh::tunnel(
   $enable           = true,
 ){
 
+  if(!defined(Package["Autossh"])) {
+    include autossh::install
+  }
+
   $tun_name     = $title
   $tunnel_args  = $tunnel_type ? {
     'reverse' => "-M ${monitor_port} -f -N -R",
