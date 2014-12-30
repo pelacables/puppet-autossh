@@ -36,21 +36,21 @@
 # Copyright 2014 Your name here, unless otherwise noted.
 #
 class autossh(
-  $user,
-  $tunnel_name,
-  # 'forward' or 'reverse'
-  $tunnel_type,
-  $port,
-  $hostport,
-  $remote_ssh_host,
-  $remote_ssh_port  = '22',
-  $monitor_port     = '0',
-  $enable           = true,
-) {
+  $user            = $autossh::params::user,
+  $tunnel_name     = $autossh::params::tunnel_name,
+  $tunnel_type     = $autossh::params::tunnel_type,
+  $port            = $autossh::params::port,
+  $hostport        = $autossh::params::hostport,
+  $remote_ssh_host = $autossh::params::remote_ssh_port,
+  $remote_ssh_port = $autossh::params::remote_ssh_port,
+  $monitor_port    = $autossh::params::monitor_port,
+  $enable          = $autossh::params::enable,
+  $autossh_version = $autossh::params::autossh_version,
+  $autossh_build   = $autossh::params::autossh_build,
+  $autossh_package = $autossh::params::autossh_package,
+) inherits autossh::params {
 
-  package{'autossh':
-    ensure  =>  present,
-  }
+  include ::autossh::install
 
   autossh::tunnel{$tunnel_name:
     user              =>  $user,
@@ -63,5 +63,6 @@ class autossh(
     enable            =>  $enable,
   }
 
-  Package['autossh'] -> Autossh::Tunnel[$tunnel_name]
+
+  Class['Autossh::Install'] -> Authssh::Tunnel[$tunnel_name]
 }
