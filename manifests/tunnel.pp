@@ -1,3 +1,4 @@
+#
 define autossh::tunnel(
   $user,
   # 'forward' or 'reverse'
@@ -17,12 +18,14 @@ define autossh::tunnel(
   }
 
 
-  file{'auto_ssh_conf_dir':
-    ensure  => directory,
-    path    => '/etc/autossh',
-    mode    => '0755',
-    owner   => 'root',
-    group   => 'root'
+  if !defined(File['auto_ssh_conf_dir']) {
+    file{'auto_ssh_conf_dir':
+      ensure => directory,
+      path   => '/etc/autossh',
+      mode   => '0755',
+      owner  => 'root',
+      group  => 'root'
+    }
   }
   file{"autossh-${tun_name}_conf":
     ensure  => 'present',
@@ -41,8 +44,8 @@ define autossh::tunnel(
     content => template('autossh/autossh.init.erb'),
   }
   service{"autossh-${tun_name}":
-    ensure  =>  $enable,
-    enable  =>  $enable,
+    ensure =>  $enable,
+    enable =>  $enable,
   }
 
   File['auto_ssh_conf_dir'] -> File["autossh-${tun_name}_conf"]
