@@ -1,7 +1,7 @@
 #
 class autossh::params {
   $autossh_version  = "1.4d"
-  $autossh_build    = 1
+  $autossh_build    = 2
   $user		    = ""
   $tunnel_name      = ""
   # 'forward' or 'reverse'

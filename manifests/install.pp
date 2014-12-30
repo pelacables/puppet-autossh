@@ -10,6 +10,10 @@ class autossh::install {
       mode   => '0600'
     }
 
+    if(!defined(Package["Redhat-lsb-core"])) {
+      package{'redhat-lsb-core': ensure => installed }
+    }
+
     package{'autossh': 
       ensure   =>  latest, 
       provider => 'rpm', 
