@@ -17,7 +17,7 @@
 # pidfile: /var/run/autossh-<%= @tun_name %>.pid
 
 # Source lsb library
-. /lib/lsb/init-functions
+#. /lib/lsb/init-functions
 
 PID_FILE=/var/run/autossh-<%= @tun_name %>
 export AUTOSSH_PIDFILE=$PID_FILE
