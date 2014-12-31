@@ -64,5 +64,5 @@ class autossh(
   #}
 
 
-  Class['Autossh::Install'] -> Authssh::Tunnel[$tunnel_name]
+  Class['Autossh::Install'] -> Autossh::Tunnel[$tunnel_name]
 }
