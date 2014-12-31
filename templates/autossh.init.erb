@@ -71,7 +71,8 @@ start() {
     rm -f $PID_FILE $LOCK_FILE
   fi
   runuser - $USER -c "$SVC_BIN $SVC_CONF"
-  ps -ef | grep "$SVC_BIN $SVC_CONF" | awk '{print $2}' > $PID_FILE
+  cmd=`echo "$SVC_BIN $SVC_CONF" | sed 's/-f/ /g' | sed 's/\s/\\\s+/g'`
+  pgrep -f "$cmd" > $PID_FILE
 
   # wait for it to load up
   count=0
