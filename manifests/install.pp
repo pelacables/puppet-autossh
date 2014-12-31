@@ -23,7 +23,7 @@ class autossh::install {
       ensure   => installed, 
       provider => 'rpm', 
       source   => "/var/tmp/${autossh_package}",
-      require  => File["/var/tmp/${autossh_package}"],
+      require  => [File["/var/tmp/${autossh_package}"],Package["redhat-lsb-core"],Package["openssh-clients"]],
     } 
   } else {
     fail("Unsupported OS Family: $::osfamily")
