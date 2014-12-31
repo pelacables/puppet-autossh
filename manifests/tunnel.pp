@@ -29,7 +29,6 @@ define autossh::tunnel(
       mode   => '0755',
       owner  => 'root',
       group  => 'root',
-      require => Package["Autossh"]
     }
   }
   file{"autossh-${tun_name}_conf":
@@ -39,7 +38,6 @@ define autossh::tunnel(
     owner   => $user,
     group   => $user,
     content => template('autossh/autossh.conf.erb'),
-    require => Package["Autossh"]
   }
   file{"autossh-${tun_name}-init":
     ensure  => 'present',
@@ -48,12 +46,11 @@ define autossh::tunnel(
     owner   => 'root',
     group   => 'root',
     content => template('autossh/autossh.init.erb'),
-    require => Package["Autossh"]
   }
   service{"autossh-${tun_name}":
     ensure =>  $enable,
     enable =>  $enable,
-    require => Package["Autossh"]
+    require => Package["autossh"]
   }
 
   File['auto_ssh_conf_dir'] -> File["autossh-${tun_name}_conf"]
