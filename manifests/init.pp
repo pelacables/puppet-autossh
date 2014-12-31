@@ -50,7 +50,6 @@ class autossh(
   $autossh_package = $autossh::params::autossh_package,
 ) inherits autossh::params {
 
-  include ::autossh::install
 
   #autossh::tunnel{$tunnel_name:
   #  user              =>  $user,
@@ -62,7 +61,5 @@ class autossh(
   #  monitor_port      =>  $monitor_port,
   #  enable            =>  $enable,
   #}
-
-
-  Class['Autossh::Install'] -> Autossh::Tunnel[$tunnel_name]
+  include ::autossh::install
 }

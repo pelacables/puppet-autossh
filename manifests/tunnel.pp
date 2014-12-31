@@ -11,7 +11,7 @@ define autossh::tunnel(
   $enable           = true,
 ){
 
-  if(!defined(Package["Autossh"])) {
+  if(!defined(Class["Autossh"])) {
     include autossh 
   }
 
