@@ -12,7 +12,7 @@ define autossh::tunnel(
 ){
 
   if(!defined(Package["Autossh"])) {
-    include autossh::install
+    include autossh 
   }
 
   $tun_name     = $title

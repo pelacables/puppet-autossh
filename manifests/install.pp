@@ -11,8 +11,6 @@ class autossh::install {
       package{'openssh-clients': ensure => installed }
     }
 
-    notice("Installing ${autossh_package}")
-
     file { "/var/tmp/${autossh_package}": 
       ensure => file,
       source => "puppet:///modules/autossh/${autossh_package}",

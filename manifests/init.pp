@@ -52,16 +52,16 @@ class autossh(
 
   include ::autossh::install
 
-  autossh::tunnel{$tunnel_name:
-    user              =>  $user,
-    tunnel_type       =>  $tunnel_type,
-    port              =>  $port,
-    hostport          =>  $hostport,
-    remote_ssh_host   =>  $remote_ssh_host,
-    remote_ssh_port   =>  $remote_ssh_port,
-    monitor_port      =>  $monitor_port,
-    enable            =>  $enable,
-  }
+  #autossh::tunnel{$tunnel_name:
+  #  user              =>  $user,
+  #  tunnel_type       =>  $tunnel_type,
+  #  port              =>  $port,
+  #  hostport          =>  $hostport,
+  #  remote_ssh_host   =>  $remote_ssh_host,
+  #  remote_ssh_port   =>  $remote_ssh_port,
+  #  monitor_port      =>  $monitor_port,
+  #  enable            =>  $enable,
+  #}
 
 
   Class['Autossh::Install'] -> Authssh::Tunnel[$tunnel_name]
