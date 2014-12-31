@@ -3,12 +3,12 @@ class autossh::install {
 
   if $::osfamily == 'RedHat' {
 
-    if(!defined(Package["Redhat-lsb-core"])) {
+    if(!defined(Package["redhat-lsb-core"])) {
       package{'redhat-lsb-core': ensure => installed }
     }
 
-    if(!defined(Package["Openssh-clients"])) {
-      package{'Openssh-clients': ensure => installed }
+    if(!defined(Package["openssh-clients"])) {
+      package{'openssh-clients': ensure => installed }
     }
 
     notice("Installing ${autossh_package}")
