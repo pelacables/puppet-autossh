@@ -71,7 +71,8 @@ start() {
     rm -f $PID_FILE $LOCK_FILE
   fi
   runuser - $USER -c "$SVC_BIN $SVC_CONF"
-  pidof autossh > $PID_FILE
+  ps -ef | grep "$SVC_BIN $SVC_CONF" | awk '{print $2}' > $PID_FILE
+
   # wait for it to load up
   count=0
   until [ -f $PID_FILE ] || [ "$count" -gt "$STARTUP_WAIT" ]; do
