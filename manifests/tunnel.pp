@@ -64,5 +64,6 @@ define autossh::tunnel(
     port   => $port,
     host   => $remote_ssh_host,
     pubkey => $pubkey,
+    enable => $enable,
   }
 }
