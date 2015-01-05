@@ -13,7 +13,7 @@ define autossh::tunnel_endpoint(
 #      line => "command=echo Unauthorised Access,no-agent-forwarding,no-X11-forwarding,permitopen=${permit} ${pubkey}"
 #    }
 
-  @@concat::fragment{"authssh_${user}_authkey_${host}_${port}":
+  @@concat::fragment{"autossh_${user}_authkey_${host}_${port}":
     target  => "/home/${user}/.ssh/authorized_keys",
     content => "command=echo Unauthorised Access,no-agent-forwarding,no-X11-forwarding,permitopen=${permit} ${pubkey}",
     order   => 10,
