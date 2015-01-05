@@ -18,6 +18,7 @@ define autossh::tunnel_endpoint(
       target  => "/home/${user}/.ssh/authorized_keys",
       content => "command=echo Unauthorised Access,no-agent-forwarding,no-X11-forwarding,permitopen=${permit} ${pubkey}",
       order   => 10,
+      tag     => "authkey_fragment_${user}_${host}",
     }
   }
 }
