@@ -1,10 +1,6 @@
 #
 define autossh::endpoint(
-  $enable,
   $user,
-  $port,
-  $host,
-  $pubkey,
 )
 {
   concat { "/home/${user}/.ssh/authorized_keys":
@@ -13,5 +9,5 @@ define autossh::endpoint(
     mode  => '0600',
   }
 
-  Concat::Fragment <<| target == "/home/${user}/.ssh/authorized_keys" |>>
+  Autossh::Tunnel <<| |>>
 }
