@@ -9,5 +9,6 @@ define autossh::endpoint(
 #    mode  => '0600',
 #  }
 
-  Autossh::Tunnel <<| |>>
+  Autossh::Tunnel_endpoint <<| |>>
+
 }
