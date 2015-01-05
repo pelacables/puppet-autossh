@@ -2,7 +2,7 @@
 define autossh::tunnel_endpoint(
   $user,
   $port,
-  $remote_ssh_host,
+  $host,
   $pubkey,
 )
 {
