@@ -9,10 +9,11 @@ define autossh::tunnel(
   $remote_ssh_port  = '22',
   $monitor_port     = '0',
   $enable           = true,
+  $pubkey           = '',
 ){
 
-  if(!defined(Class["Autossh"])) {
-    include autossh 
+  if(!defined(Class['Autossh'])) {
+    include autossh
   }
 
   $tun_name     = $title
@@ -48,12 +49,20 @@ define autossh::tunnel(
     content => template('autossh/autossh.init.erb'),
   }
   service{"autossh-${tun_name}":
-    ensure =>  $enable,
-    enable =>  $enable,
-    require => Package["autossh"]
+    ensure  =>  $enable,
+    enable  =>  $enable,
+    require => Package['autossh']
   }
 
   File['auto_ssh_conf_dir'] -> File["autossh-${tun_name}_conf"]
   File["autossh-${tun_name}_conf"] -> Service["autossh-${tun_name}"]
   File["autossh-${tun_name}_conf"] ~> Service["autossh-${tun_name}"]
+
+  ## Define remote endpoints
+  @tunnel_endpoint {"tunnel-enpoint-${remote_ssh_host}-${port}":
+    user   => $user,
+    port   => $port,
+    host   => $remote_ssh_host,
+    pubkey => $pubkey,
+  }
 }
