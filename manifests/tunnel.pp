@@ -59,7 +59,7 @@ define autossh::tunnel(
   File["autossh-${tun_name}_conf"] ~> Service["autossh-${tun_name}"]
 
   ## Define remote endpoints
-  @tunnel_endpoint {"tunnel-enpoint-${remote_ssh_host}-${port}":
+  @@tunnel_endpoint {"tunnel-enpoint-${remote_ssh_host}-${port}":
     user   => $user,
     port   => $port,
     host   => $remote_ssh_host,
