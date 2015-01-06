@@ -4,9 +4,7 @@ define autossh::tunnel_endpoint(
   $user,
   $port,
   $host,
-  $hostport,
   $pubkey,
-  $service_name,
 )
 {
   concat::fragment{"autossh_${user}_authkey_${host}_${port}":

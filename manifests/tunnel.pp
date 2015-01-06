@@ -61,12 +61,10 @@ define autossh::tunnel(
 
   ## Define remote endpoints
   @@autossh::tunnel_endpoint {"tunnel-enpoint-${remote_ssh_host}-${port}":
-    user         => $user,
-    port         => $port,
-    hostport     => $port,
-    host         => $remote_ssh_host,
-    pubkey       => $pubkey,
-    enable       => $enable,
-    service_name => $name,
+    user   => $user,
+    port   => $port,
+    host   => $remote_ssh_host,
+    pubkey => $pubkey,
+    enable => $enable,
   }
 }
