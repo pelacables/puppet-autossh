@@ -7,6 +7,12 @@
   "source": "https://github.com/agronaught/puppet-autossh",
   "project_page": "https://github.com/agronaught/puppet-autossh",
   "issues_url": "https://github.com/agronaught/puppet-autossh/issues",
+  "operatingsystem_support": [
+    {
+    "operatingsystem":"RedHat",
+    "operatingsystemrelease":[ "6.0" ]
+    },
+   ],
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
