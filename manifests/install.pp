@@ -21,7 +21,15 @@
 # Copyright 2014 Jason Ball.
 #
 class autossh::install {
+  $user            = $autossh::user
   $autossh_package = $autossh::autossh_package
+
+  user { $user:
+    managehome => true,
+    system     => true,
+    shell      => '/bin/false',
+  }
+        
 
   if $::osfamily == 'RedHat' {
 
