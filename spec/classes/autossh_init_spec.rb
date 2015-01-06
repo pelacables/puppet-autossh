@@ -6,14 +6,6 @@ describe 'autossh', :type => :class  do
   let :params do
     {
       :user             => 'someuser',
-      :tunnel_type      => 'reverse',
-      :port             => '22',
-      :hostport         => '2000',
-      :remote_ssh_host  => '123.123.123.1',
-      :remote_ssh_port  => '22',
-      :monitor_port     => '0',
-      :enable           => true,
-      :tunnel_name      => 'somename'
     }
   end
 

@@ -140,7 +140,7 @@ class capability::autosshtarget {
 ```
 
 autossh::hostip: 172.16.255.2
-utossh::user: 'autossh'
+autossh::user: 'autossh'
 autossh::pubkey: 'ssh-dss OMITTED'
 
 ```
