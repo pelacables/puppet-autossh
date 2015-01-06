@@ -1,7 +1,6 @@
 #
 define autossh::tunnel(
   $user,
-  # 'forward' or 'reverse'
   $tunnel_type,
   $port,
   $hostport,
@@ -10,7 +9,6 @@ define autossh::tunnel(
   $monitor_port     = '0',
   $enable           = true,
   $pubkey           = '',
-  $name             = '',
 ){
 
   if(!defined(Class['Autossh'])) {
