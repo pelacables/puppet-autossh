@@ -10,6 +10,7 @@ define autossh::tunnel(
   $monitor_port     = '0',
   $enable           = true,
   $pubkey           = '',
+  $name             = '',
 ){
 
   if(!defined(Class['Autossh'])) {
@@ -60,10 +61,12 @@ define autossh::tunnel(
 
   ## Define remote endpoints
   @@autossh::tunnel_endpoint {"tunnel-enpoint-${remote_ssh_host}-${port}":
-    user   => $user,
-    port   => $port,
-    host   => $remote_ssh_host,
-    pubkey => $pubkey,
-    enable => $enable,
+    user         => $user,
+    port         => $port,
+    hostport     => $port,
+    host         => $remote_ssh_host,
+    pubkey       => $pubkey,
+    enable       => $enable,
+    service_name => $name,
   }
 }

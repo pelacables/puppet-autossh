@@ -8,7 +8,6 @@ define autossh::endpoint(
     group => $user,
     mode  => '0600',
   }
-
   Autossh::Tunnel_endpoint <<| |>>
 
 }
