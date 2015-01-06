@@ -5,6 +5,7 @@ define autossh::tunnel_endpoint(
   $port,
   $host,
   $pubkey,
+  $name,
 )
 {
   $permit="\"localhost:${port}\""
@@ -18,5 +19,13 @@ define autossh::tunnel_endpoint(
     content => template('autossh/endpoint.erb'),
     order   => 10,
     tag     => "authkey_fragment_${user}_${host}",
+  }
+
+  @@haproxy::balancermember { "${name}_${port}":
+    listening_service => '$name',
+    server_names      => 'localhost',
+    ipaddresses       => '127.0.0.1',
+    ports             => '7501',
+    options           => 'check'
   }
 }
