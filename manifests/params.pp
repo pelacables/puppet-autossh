@@ -43,6 +43,10 @@ class autossh::params {
       } # $::operatingsystemmajrelease  
     } # RedHat
 
+    /Debian/: {
+          $autossh_package = 'autossh'
+    }
+
     default: {
       fail("Unsupported Operating System: ${::osfamily}")
     }
