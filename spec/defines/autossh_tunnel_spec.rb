@@ -13,6 +13,7 @@ describe 'autossh::tunnel', :type => :definition  do
       :remote_ssh_port  => '22',
       :monitor_port     => '0',
       :enable           => 'true',
+      :pubkey           => 'ssh-dss UNKNOWN',
     }
   end
 

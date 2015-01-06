@@ -28,12 +28,11 @@
 class autossh::params {
   $autossh_version = '1.4d'
   $autossh_build    = 3
-  $user             = ''
+  $user             = 'autossh'
   $enable           = true
 
   case $::osfamily {
     /RedHat/: {
-
       case $::operatingsystemmajrelease {
         /6/: {
           $autossh_package = "autossh-${autossh_version}-${autossh_build}.el6.x86_64.rpm"

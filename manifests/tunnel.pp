@@ -37,6 +37,7 @@
 # === Authors
 #
 # Jason Ball <jason@ball.net>
+# Aimon Bustardo -- forked from https://github.com/aimonb/puppet-autossh.git
 #
 # === Copyright
 #

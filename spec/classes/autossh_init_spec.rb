@@ -3,24 +3,59 @@ require 'spec_helper'
 describe 'autossh', :type => :class  do
 
   let(:title) { 'init' }
-  let :params do
-    {
-      :user             => 'someuser',
+
+  #
+  # Test that an error is raised on unsupported systems
+  #
+  context 'On Unsupported OS' do
+    let(:facts) {{ :osfamily => 'UNKNOWN' }}
+  
+    it { 
+      expect { should raise_error(Puppet::Error) } 
     }
+  end  
+
+
+  #
+  # test that an error IS raised on unsupported systems (RHEL7)
+  #
+  context 'On Unsupported RedHat based OS' do
+    let(:facts) {{ :osfamily => 'RedHat',
+                   :operatingsystemmajrelease => '7' }}
+    
+    it { 
+      expect { should raise_error(Puppet::Error) } 
+    }
+
   end
 
-  context 'with defaults for all parameters' do
-    it { should create_class('autossh') }
-    it { should contain_package('autossh') }
-    it { should contain_autossh__tunnel('somename').with(
-      :user             => 'someuser',
-      :tunnel_type      => 'reverse',
-      :port             => '22',
-      :hostport         => '2000',
-      :remote_ssh_host  => '123.123.123.1',
-      :remote_ssh_port  => '22',
-      :monitor_port     => '0',
-      :enable           => true
-    ) }
+  #
+  # test that an error IS NOT raised on supported systems (RHEL6)
+  #
+  context 'On Supported RedHat based OS' do
+    let(:facts) {{ :osfamily => 'RedHat',
+                   :operatingsystemmajrelease => '6' }}
+    
+    it { 
+      should contain_class('autossh')
+    }
+
   end
+
+  #
+  # test default values
+  #
+  context 'test default values' do
+    let(:facts) {{ :osfamily => 'RedHat',
+                   :operatingsystemmajrelease => '6' }}
+    
+    it { 
+      should contain_class('autossh')
+      should contain_user('autossh')
+      should contain_package('autossh')
+    }
+
+  end
+
+
 end
