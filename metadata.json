@@ -1,6 +1,6 @@
 {
   "name": "agronaught-autossh",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "agronaught",
   "summary": "Manage Standard and Reverse SSH Tunnels",
   "license": "Apache 2.0",
@@ -20,11 +20,11 @@
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_range": ">= 1.0.0"
+      "version_requirement": ">= 1.0.0"
     },
     {
       "name": "puppetlabs-concat",
-      "version_range": ">= 1.1.0"
+      "version_requirement": ">= 1.1.0"
     }
   ]
 }
