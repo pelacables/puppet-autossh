@@ -1,6 +1,6 @@
 {
   "name": "agronaught-autossh",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "author": "agronaught",
   "summary": "Manage Standard and Reverse SSH Tunnels",
   "license": "Apache 2.0",
