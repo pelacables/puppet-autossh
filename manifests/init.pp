@@ -37,17 +37,10 @@
 #
 class autossh(
   $user            = $autossh::params::user,
-  $tunnel_name     = $autossh::params::tunnel_name,
-  $tunnel_type     = $autossh::params::tunnel_type,
-  $port            = $autossh::params::port,
-  $hostport        = $autossh::params::hostport,
-  $remote_ssh_host = $autossh::params::remote_ssh_port,
-  $remote_ssh_port = $autossh::params::remote_ssh_port,
-  $monitor_port    = $autossh::params::monitor_port,
-  $enable          = $autossh::params::enable,
   $autossh_version = $autossh::params::autossh_version,
   $autossh_build   = $autossh::params::autossh_build,
   $autossh_package = $autossh::params::autossh_package,
+  $enable          = $authssh::params::enable,
 ) inherits autossh::params {
   include ::autossh::install
 }
