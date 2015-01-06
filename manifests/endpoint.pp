@@ -1,6 +1,7 @@
 #
 define autossh::endpoint(
   $user,
+  $host,
 )
 {
   concat { "/home/${user}/.ssh/authorized_keys":
@@ -8,5 +9,5 @@ define autossh::endpoint(
     group => $user,
     mode  => '0600',
   }
-  Autossh::Tunnel_endpoint <<| |>>
+  Autossh::Tunnel_endpoint <<| host == $host |>>
 }
