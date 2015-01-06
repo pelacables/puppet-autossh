@@ -24,10 +24,13 @@ class autossh::install {
   $user            = $autossh::user
   $autossh_package = $autossh::autossh_package
 
-  user { $user:
-    managehome => true,
-    system     => true,
-    shell      => '/bin/false',
+  ## If the target user account doesn't exist, create it...
+  if ! defined(User[$user]) {
+    user { $user:
+      managehome => true,
+      system     => true,
+      shell      => '/bin/false',
+    }
   }
         
 
