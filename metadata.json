@@ -1,12 +1,12 @@
 {
-  "name": "aimonb-autossh",
-  "version": "0.2.0",
-  "author": "aimonb",
+  "name": "agronaught-autossh",
+  "version": "1.0.0",
+  "author": "agronaught",
   "summary": "Manage Standard and Reverse SSH Tunnels",
   "license": "Apache 2.0",
-  "source": "https://github.com/aimonb/puppet-autossh",
-  "project_page": "https://github.com/aimonb/puppet-autossh",
-  "issues_url": "https://github.com/aimonb/puppet-autossh/issues",
+  "source": "https://github.com/agronaught/puppet-autossh",
+  "project_page": "https://github.com/agronaught/puppet-autossh",
+  "issues_url": "https://github.com/agronaught/puppet-autossh/issues",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
