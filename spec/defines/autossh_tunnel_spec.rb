@@ -43,5 +43,6 @@ describe 'autossh::tunnel', :type => :definition  do
       :ensure =>  'true',
       :enable =>  'true'
     ) }
+
   end
 end

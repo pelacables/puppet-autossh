@@ -51,8 +51,13 @@ describe 'autossh', :type => :class  do
     
     it { 
       should contain_class('autossh')
+      should contain_class('autossh::install')
+      should contain_class('autossh::params')
       should contain_user('autossh')
       should contain_package('autossh')
+      should contain_package('openssh-clients')
+      should contain_package('redhat-lsb-core')
+      should contain_file('/var/tmp/autossh-1.4d-3.el6.x86_64.rpm')
     }
 
   end
