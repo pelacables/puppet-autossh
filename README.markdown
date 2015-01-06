@@ -24,16 +24,48 @@ However this module has been rewritten to provide:
 As tested this module can support any number of ssh tunnels on any given host, and automatically syncronises the tunnel endpoints providing both nodesconnect to the same puppetdb.
 
 
-Example
+
+Simple Example
 ------
 
-** Role - Source Node **
+The simple example creates a single ssh tunnel between two nodes, starting at the origin and terminating at the 'destination'.
+
+** Origin Node **
 
 ```
-#
-# ssh tunnels
-#
-class capability::autossh {
+  class { '::autossh':
+  }
+
+  autossh::tunnel { 'port_25_tunnel_to_server1': 
+    port             => '25',
+    hostport         => '25',
+    remote_ssh_host  => 'server1',
+    pubkey           => 'ssh-dss <OMITTED>'
+  } 
+```
+
+** Destination Node **
+
+```
+  class { '::autossh':
+  }
+
+  autossh::endpoint { 'load ssh endpoints': 
+    host   => 'server1',
+  }
+```
+     
+
+
+
+Complex Example
+------
+
+The following example creates multiple ssh port forwards between two nodes, the Origin and Destination.
+
+** Role - Origin Node **
+
+```
   $autossh_user = hiera('autossh::user')
 
   class { '::autossh': 
@@ -57,7 +89,7 @@ class capability::autossh {
 
 ```
 
-** Profile - Source Node **
+** Profile - Origin Node **
 
 ```
 

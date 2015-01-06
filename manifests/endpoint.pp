@@ -28,8 +28,8 @@
 #
 # Copyright 2014 Jason Ball.
 define autossh::endpoint(
-  $user,
   $host,
+  $user = 'autossh',
 )
 {
   concat { "/home/${user}/.ssh/authorized_keys":

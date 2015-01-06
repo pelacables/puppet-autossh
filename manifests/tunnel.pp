@@ -43,11 +43,11 @@
 # Copyright 2014 Jason Ball.
 #
 define autossh::tunnel(
-  $user,
-  $tunnel_type,
   $port,
   $hostport,
   $remote_ssh_host,
+  $user = 'autossh',
+  $tunnel_type = 'forward',
   $remote_ssh_port  = '22',
   $monitor_port     = '0',
   $enable           = true,
