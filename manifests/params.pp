@@ -1,3 +1,29 @@
+# == Class: autossh::params
+#
+# This class defines the default values used in the autossh class.
+# 
+# === Parameters
+#
+# === Variables
+#
+# $autossh_version: The install version for the autossh package
+# $autossh_build: The build number for the autossh package
+# $user: The user account to be used to run autossh processes.
+# $enable: enable/disable package support.
+# $autossh_package: The package to be installed for autossh support.
+#
+# === Examples
+#
+#  class { autossh:
+#  }
+#
+# === Authors
+#
+# Jason Ball <jason@ball.net>
+#
+# === Copyright
+#
+# Copyright 2014 Jason Ball.
 #
 class autossh::params {
   $autossh_version = '1.4d'

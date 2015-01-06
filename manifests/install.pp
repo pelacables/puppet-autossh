@@ -1,17 +1,39 @@
+# == Class: autossh::install
+#
+# This class initilises the runtime environment for the autossh package and should not be called directly as it is 
+# called from the class initialiser.
+# 
+# === Parameters
+#
+# === Variables
+#
+# === Examples
+#
+#  class { autossh:
+#  }
+#
+# === Authors
+#
+# Jason Ball <jason@ball.net>
+#
+# === Copyright
+#
+# Copyright 2014 Jason Ball.
+#
 class autossh::install {
   $autossh_package = $autossh::autossh_package
 
   if $::osfamily == 'RedHat' {
 
-    if(!defined(Package["redhat-lsb-core"])) {
+    if(!defined(Package['redhat-lsb-core'])) {
       package{'redhat-lsb-core': ensure => installed }
     }
 
-    if(!defined(Package["openssh-clients"])) {
+    if(!defined(Package['openssh-clients'])) {
       package{'openssh-clients': ensure => installed }
     }
 
-    file { "/var/tmp/${autossh_package}": 
+    file { "/var/tmp/${autossh_package}":
       ensure => file,
       source => "puppet:///modules/autossh/${autossh_package}",
       owner  => root,
@@ -19,13 +41,13 @@ class autossh::install {
       mode   => '0600'
     }
 
-    package{'autossh': 
-      ensure   => installed, 
-      provider => 'rpm', 
+    package{'autossh':
+      ensure   => installed,
+      provider => 'rpm',
       source   => "/var/tmp/${autossh_package}",
-      require  => [File["/var/tmp/${autossh_package}"],Package["redhat-lsb-core"],Package["openssh-clients"]],
-    } 
+      require  => [File["/var/tmp/${autossh_package}"],Package['redhat-lsb-core'],Package['openssh-clients']],
+    }
   } else {
-    fail("Unsupported OS Family: $::osfamily")
+    fail("Unsupported OS Family: ${::osfamily}")
   }
 }
