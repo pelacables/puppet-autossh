@@ -1,7 +1,7 @@
 # == Class: autossh::install
 #
-# This class initilises the runtime environment for the autossh package and should not be called directly as it is 
-# called from the class initialiser.
+# This class initilises the runtime environment for the autossh package and 
+# should not be called directly as it is called from the class initialiser.
 # 
 # === Parameters
 #
@@ -55,7 +55,7 @@ class autossh::install {
         ensure   => installed,
         provider => 'rpm',
         source   => "/var/tmp/${autossh_package}",
-        require  => [File["/var/tmp/${autossh_package}"],Package['redhat-lsb-core'],Package['openssh-clients']],
+        require  => [File["/var/tmp/${autossh_package}"]],
       }
     } #case RedHat
 

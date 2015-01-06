@@ -35,7 +35,8 @@ class autossh::params {
     /RedHat/: {
       case $::operatingsystemmajrelease {
         /6/: {
-          $autossh_package = "autossh-${autossh_version}-${autossh_build}.el6.x86_64.rpm"
+          $autossh_package =
+            "autossh-${autossh_version}-${autossh_build}.el6.x86_64.rpm"
         }
         default: {
           fail("Error - Unsupported OS Version: ${::operatingsystemrelease}")

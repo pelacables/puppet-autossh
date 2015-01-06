@@ -1,7 +1,8 @@
 # == Class: autossh::tunnel_endpoint
 #
-# Defines an enpoint for an ssh tunnel, usually created on the 'target node'.  This class is called from the 'tunnel' class and should not need
-# to be invoked directly.
+# Defines an enpoint for an ssh tunnel, usually created on the 'target node'.
+# This class is called from the 'tunnel' class and should not need to be 
+# invoked directly.
 #
 # This class:
 #   * creates a 'concat::fragment' for the target authorized_keys file.

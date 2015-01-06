@@ -1,6 +1,7 @@
 # == Class: autossh::endpoint
 #
-# Creates the endpoint files (authorized_keys) for an ssh tunnel.  This class should be run on any 'target' hosts for ssh tunnels.
+# Creates the endpoint files (authorized_keys) for an ssh tunnel.  This 
+# class should be run on any 'target' hosts for ssh tunnels.
 #
 # This class:
 #   * creates the receiving account (user account).
@@ -9,7 +10,8 @@
 # === Parameters
 #
 # $user = The local user account to use to terminate the ssh tunnel.
-# $host = the host name to use to filter the tunnel_endpoint exported resources.  This should match the 'host' used on the initiating node.
+# $host = the host name to use to filter the tunnel_endpoint exported resources
+# .  This should match the 'host' used on the initiating node.
 #
 # === Variables
 #

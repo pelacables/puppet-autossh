@@ -1,8 +1,10 @@
 # == Class: autossh
 #
-# The autossh service configures persistent 'ssh port forwards' or 'ssh tunnels' between two nodes.  This class caters for both sides
-# of the link from the 'origin' node which starts the ssh tunnel to the 'endpoint' node which terminates that tunnel.  There is a base
-# assumption that both nodes connect to the same puppetdb.
+# The autossh service configures persistent 'ssh port forwards' or 'ssh tunnels'
+# between two nodes.  This class caters for both sides of the link from the 
+# 'origin' node which starts the ssh tunnel to the 'endpoint' node which 
+# terminates that tunnel.  There is a base assumption that both nodes connect 
+# to the same puppetdb.
 #
 # === Parameters
 #
