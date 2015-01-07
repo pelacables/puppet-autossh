@@ -29,7 +29,7 @@ class autossh::install {
     user { $user:
       managehome => true,
       system     => true,
-      shell      => '/bin/false',
+      shell      => '/bin/bash',
     }
   }
         
