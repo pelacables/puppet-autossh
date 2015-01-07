@@ -8,6 +8,7 @@ describe 'autossh::tunnel_endpoint', :type => :definition  do
       :enable => true,
       :user   => 'autossh',
       :port   => '25',
+      :monitor_port => '2000',
       :host   => 'server1.foo.bar',
       :pubkey => 'ssh-dss IOUEOWDOQ...'
     }

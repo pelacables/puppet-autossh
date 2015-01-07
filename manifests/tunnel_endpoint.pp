@@ -45,7 +45,7 @@ define autossh::tunnel_endpoint(
   $user   = $autossh::params::user,
 )
 {
-  concat::fragment{"autossh_${user}_authkey_${host}_${port}":
+  concat::fragment{"${::hostname}_autossh_${user}_authkey_${host}_${port}":
     target  => "/home/${user}/.ssh/authorized_keys",
     content => template('autossh/endpoint.erb'),
     order   => 10,
