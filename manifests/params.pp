@@ -41,7 +41,7 @@ class autossh::params {
         }
         /7/: {
           $autossh_package =
-            "autossh-${autossh_version}-${autossh_build}.centos.x86_64.rpm"
+            "autossh-${autossh_version}-${autossh_build}.el7.centos.x86_64.rpm"
           $init_template = 'autossh.init.systemd.erb'
         }
         default: {
