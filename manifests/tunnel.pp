@@ -63,16 +63,6 @@ define autossh::tunnel(
     'forward' => "-M ${monitor_port} -f -N -L"
   }
 
-
-  if !defined(File['auto_ssh_conf_dir']) {
-    file{'auto_ssh_conf_dir':
-      ensure => directory,
-      path   => '/etc/autossh',
-      mode   => '0755',
-      owner  => 'root',
-      group  => 'root',
-    }
-  }
   file{"autossh-${tun_name}_conf":
     ensure  => 'present',
     path    => "/etc/autossh/autossh-${tun_name}.conf",
@@ -100,6 +90,27 @@ define autossh::tunnel(
           }
         } # case rhel 5|6
 
+        /7/: {
+          $systemd_script_path='/usr/lib/systemd/system'
+          file{'autossh-tunnel.sh':
+            ensure  => 'present',
+            path    => '/etc/autossh/autossh-tunnel.sh',
+            mode    => '0750',
+            owner   => 'root',
+            group   => 'root',
+            content => template('autossh/autossh.init.systemd.erb'),
+          }
+
+          file{"systemd-service-${tun_name}":
+            ensure  => 'present',
+            path    => "/etc/systemd/system/autossh-${tun_name}.service",
+            mode    => '0750',
+            owner   => 'root',
+            group   => 'root',
+            content => template('autossh.service.erb'),
+          }
+        }
+
         default: {
         }
       }
@@ -114,10 +125,6 @@ define autossh::tunnel(
     enable  =>  $enable,
     require => Package['autossh']
   }
-
-  File['auto_ssh_conf_dir'] -> File["autossh-${tun_name}_conf"]
-  File["autossh-${tun_name}_conf"] -> Service["autossh-${tun_name}"]
-  File["autossh-${tun_name}_conf"] ~> Service["autossh-${tun_name}"]
 
   ## Define remote endpoints
   @@autossh::tunnel_endpoint {"tunnel-enpoint-${remote_ssh_host}-${port}":

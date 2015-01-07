@@ -34,6 +34,16 @@ class autossh::install {
   }
         
 
+  if !defined(File['auto_ssh_conf_dir']) {
+    file{'auto_ssh_conf_dir':
+      ensure => directory,
+      path   => '/etc/autossh',
+      mode   => '0755',
+      owner  => 'root',
+      group  => 'root',
+    }
+  }
+
   case $::osfamily {
     /RedHat/: {
 
@@ -76,4 +86,5 @@ class autossh::install {
       fail("Unsupported OS Family: ${::osfamily}")
     }
   } #case
+
 }
