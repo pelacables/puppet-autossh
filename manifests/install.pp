@@ -24,6 +24,7 @@ class autossh::install {
   $user            = $autossh::user
   $autossh_package = $autossh::autossh_package
 
+
   ## If the target user account doesn't exist, create it...
   if ! defined(User[$user]) {
     user { $user:
@@ -96,5 +97,4 @@ class autossh::install {
       fail("Unsupported OS Family: ${::osfamily}")
     }
   } #case
-
 }

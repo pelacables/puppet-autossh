@@ -30,6 +30,11 @@ class autossh::params {
   $autossh_build    = 4
   $user             = 'autossh'
   $enable           = true
+  $pubkey           = ''
+  $tunnel_type      = 'forward'
+  $remote_ssh_port  = '22'
+  $monitor_port     = '0'
+
 
   case $::osfamily {
     /RedHat/: {

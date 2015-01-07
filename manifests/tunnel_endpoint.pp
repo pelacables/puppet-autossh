@@ -36,11 +36,11 @@
 # Copyright 2014 Jason Ball.
 #
 define autossh::tunnel_endpoint(
-  $enable,
-  $user,
   $port,
   $host,
-  $pubkey,
+  $pubkey = $autossh::pubkey,
+  $enable = $autossh::enable,
+  $user   = $autossh::user,
 )
 {
   concat::fragment{"autossh_${user}_authkey_${host}_${port}":

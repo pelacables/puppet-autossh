@@ -50,12 +50,12 @@ define autossh::tunnel(
   $port,
   $hostport,
   $remote_ssh_host,
-  $user = 'autossh',
-  $tunnel_type = 'forward',
-  $remote_ssh_port  = '22',
-  $monitor_port     = '0',
-  $enable           = true,
-  $pubkey           = '',
+  $user             = $autossh::user,
+  $tunnel_type      = $autossh::tunnel_type,
+  $remote_ssh_port  = $autossh::remote_ssh_port,
+  $monitor_port     = $autossh::monitor_port,
+  $enable           = $autossh::enable,
+  $pubkey           = $autossh::pubkey,
 ){
   $tun_name     = $title
   $tunnel_args  = $tunnel_type ? {
