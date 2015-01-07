@@ -107,7 +107,7 @@ define autossh::tunnel(
             mode    => '0750',
             owner   => 'root',
             group   => 'root',
-            content => template('autossh.service.erb'),
+            content => template('autossh/autossh.service.erb'),
           }
         }
 
