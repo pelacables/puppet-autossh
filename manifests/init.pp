@@ -12,6 +12,7 @@
 # $autossh_version = The autossh package version
 # $autossh_build   = The autossh package build number
 # $autossh_package = The autossh package name
+# $init_template   = Template to use for the init script
 # $enable          = Enable/Disable package support
 #
 # === Variables
@@ -34,6 +35,7 @@ class autossh(
   $autossh_version = $autossh::params::autossh_version,
   $autossh_build   = $autossh::params::autossh_build,
   $autossh_package = $autossh::params::autossh_package,
+  $init_template   = $autossh::params::init_template,
   $enable          = $authssh::params::enable,
 ) inherits autossh::params {
   include ::autossh::install

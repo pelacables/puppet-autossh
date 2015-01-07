@@ -81,14 +81,34 @@ define autossh::tunnel(
     group   => $user,
     content => template('autossh/autossh.conf.erb'),
   }
-  file{"autossh-${tun_name}-init":
-    ensure  => 'present',
-    path    => "/etc/init.d/autossh-${tun_name}",
-    mode    => '0750',
-    owner   => 'root',
-    group   => 'root',
-    content => template('autossh/autossh.init.erb'),
-  }
+
+
+  #
+  # User sysV or systemd init depending on the OS
+  #
+  case $::osfamily {
+    /RedHat/: {
+      case $::operatingsystemmajrelease {
+        /5|6/: {
+          file{"autossh-${tun_name}-init":
+            ensure  => 'present',
+            path    => "/etc/init.d/autossh-${tun_name}",
+            mode    => '0750',
+            owner   => 'root',
+            group   => 'root',
+            content => template('autossh/autossh.init.erb'),
+          }
+        } # case rhel 5|6
+
+        default: {
+        }
+      }
+    } # case Redhat
+
+    default: {
+    } # default
+  } # end case osfamily
+
   service{"autossh-${tun_name}":
     ensure  =>  $enable,
     enable  =>  $enable,

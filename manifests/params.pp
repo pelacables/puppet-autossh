@@ -37,10 +37,12 @@ class autossh::params {
         /5|6/: {
           $autossh_package =
             "autossh-${autossh_version}-${autossh_build}.el6.x86_64.rpm"
+          $init_template = 'autossh.init.sysv.erb'
         }
         /7/: {
           $autossh_package =
             "autossh-${autossh_version}-${autossh_build}.centos.x86_64.rpm"
+          $init_template = 'autossh.init.systemd.erb'
         }
         default: {
           fail("Error - Unsupported OS Version: ${::operatingsystemrelease}")
@@ -50,6 +52,7 @@ class autossh::params {
 
     /Debian/: {
           $autossh_package = 'autossh'
+          $init_template = 'autossh.init.systemd.erb'
     }
 
     default: {
