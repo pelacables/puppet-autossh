@@ -21,7 +21,7 @@ describe 'autossh', :type => :class  do
   #
   context 'On Unsupported RedHat based OS' do
     let(:facts) {{ :osfamily => 'RedHat',
-                   :operatingsystemmajrelease => '7' }}
+                   :operatingsystemmajrelease => '4' }}
     
     it { 
       expect { should raise_error(Puppet::Error) } 
@@ -32,9 +32,22 @@ describe 'autossh', :type => :class  do
   #
   # test that an error IS NOT raised on supported systems (RHEL6)
   #
-  context 'On Supported RedHat based OS' do
+  context 'On RHEL6 based OS' do
     let(:facts) {{ :osfamily => 'RedHat',
                    :operatingsystemmajrelease => '6' }}
+    
+    it { 
+      should contain_class('autossh')
+    }
+
+  end
+
+  #
+  # test that an error IS NOT raised on supported systems (RHEL6)
+  #
+  context 'On RHEL7 based OS' do
+    let(:facts) {{ :osfamily => 'RedHat',
+                   :operatingsystemmajrelease => '7' }}
     
     it { 
       should contain_class('autossh')
@@ -57,7 +70,37 @@ describe 'autossh', :type => :class  do
       should contain_package('autossh')
       should contain_package('openssh-clients')
       should contain_package('redhat-lsb-core')
-      should contain_file('/var/tmp/autossh-1.4d-3.el6.x86_64.rpm')
+      should contain_file('auto_ssh_conf_dir').with(
+        :ensure =>  'directory',
+        :path   => '/etc/autossh',
+        :mode   => '0755',
+        :owner  => 'root',
+        :group  => 'root'
+      ) 
+    }
+
+  end
+
+  context 'test default values' do
+    let(:facts) {{ :osfamily => 'RedHat',
+                   :operatingsystemmajrelease => '7' }}
+    
+    it { 
+      should contain_class('autossh')
+      should contain_class('autossh::install')
+      should contain_class('autossh::params')
+      should contain_user('autossh')
+      should contain_package('autossh')
+      should contain_package('openssh-clients')
+      should_not contain_package('redhat-lsb-core')
+      should contain_file('auto_ssh_conf_dir').with(
+        :ensure =>  'directory',
+        :path   => '/etc/autossh',
+        :mode   => '0755',
+        :owner  => 'root',
+        :group  => 'root'
+      ) 
+      should contain_file('autossh-tunnel.sh')
     }
 
   end

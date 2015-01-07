@@ -49,11 +49,11 @@ class autossh::install {
 
       # redhat-lsb-core is not supporte on rhel 7...
       case $::operatingsystemmajrelease {
-        /5|6/: {
+        /6/: {
           if(!defined(Package['redhat-lsb-core'])) {
             package{'redhat-lsb-core': ensure => installed }
           }
-        } # case rhel 5|6
+        } # case rhel 6
         /7/: {
           file{'autossh-tunnel.sh':
             ensure  => 'present',
