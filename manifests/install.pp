@@ -36,10 +36,19 @@ class autossh::install {
 
   case $::osfamily {
     /RedHat/: {
-      if(!defined(Package['redhat-lsb-core'])) {
-        package{'redhat-lsb-core': ensure => installed }
+
+      # redhat-lsb-core is not supporte on rhel 7...
+      case $::operatingsystemmajrelease {
+        /5|6/: {
+          if(!defined(Package['redhat-lsb-core'])) {
+            package{'redhat-lsb-core': ensure => installed }
+          }
+        } # case rhel 5|6
+        default: {
+        }
       }
 
+      # requireed on all rhel platforms
       if(!defined(Package['openssh-clients'])) {
         package{'openssh-clients': ensure => installed }
       }
