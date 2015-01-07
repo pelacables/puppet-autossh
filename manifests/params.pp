@@ -34,14 +34,14 @@ class autossh::params {
   case $::osfamily {
     /RedHat/: {
       case $::operatingsystemmajrelease {
-        /6/: {
+        /5|6/: {
           $autossh_package =
             "autossh-${autossh_version}-${autossh_build}.el6.x86_64.rpm"
         }
-	/7/: {
- 	  $authssh_package = 
-	    "autossh-${autossh_version}-${autossh_build}.centos.x86_64.rpm"
-   	}
+        /7/: {
+          $autossh_package =
+            "autossh-${autossh_version}-${autossh_build}.centos.x86_64.rpm"
+        }
         default: {
           fail("Error - Unsupported OS Version: ${::operatingsystemrelease}")
         }
