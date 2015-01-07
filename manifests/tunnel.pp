@@ -96,7 +96,7 @@ define autossh::tunnel(
             mode    => '0750',
             owner   => 'root',
             group   => 'root',
-            content => template('autossh/autossh.init.erb'),
+            content => template('autossh/autossh.init.sysv.erb'),
           }
         } # case rhel 5|6
 
