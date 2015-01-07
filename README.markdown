@@ -30,7 +30,12 @@ Simple Example
 
 The simple example creates a single ssh tunnel between two nodes, starting at the origin and terminating at the 'destination'.
 
-** Origin Node **
+**Prepare Private/Public Keys**
+
+Generate the necessary private and public keys for the ssh sessions.   The private key will need to be placed in the '.ssh' folder
+for the run user (default: /home/autossh/.ssh/) and the public key used when configuring the service.
+
+**Origin Node**
 
 ```
   class { '::autossh':
@@ -44,7 +49,7 @@ The simple example creates a single ssh tunnel between two nodes, starting at th
   } 
 ```
 
-** Destination Node **
+**Destination Node**
 
 ```
   class { '::autossh':
@@ -63,7 +68,7 @@ Complex Example
 
 The following example creates multiple ssh port forwards between two nodes, the Origin and Destination.
 
-** Role - Origin Node **
+**Role - Origin Node**
 
 ```
   $autossh_user = hiera('autossh::user')
@@ -89,7 +94,7 @@ The following example creates multiple ssh port forwards between two nodes, the 
 
 ```
 
-** Profile - Origin Node **
+**Profile - Origin Node**
 
 ```
 
@@ -117,7 +122,7 @@ autossh::defaults:
 ```
 
 
-** Role - Destination Node **
+**Role - Destination Node**
 
 ```
 class capability::autosshtarget {
@@ -132,10 +137,9 @@ class capability::autosshtarget {
     user => $autossh_user,
     host => $autossh_hostip,
   }
-}
 ```
 
-** Profile - Destination Node **
+**Profile - Destination Node**
 
 ```
 
