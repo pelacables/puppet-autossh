@@ -17,9 +17,6 @@
 # $pubkey          = Public key to use for tunnels.  If supplied at this level 
 #                    is used as the default for all tunnels.
 # $enable          = enable/disable the tunnel
-# $tunnel_type     = forward/backward tunnel.  
-# $remote_ssh_port = remote port to connect to (ssh port)
-# $monitor_port    = autossh monitor port.
 #
 # === Variables
 #
@@ -42,11 +39,7 @@ class autossh(
   $autossh_build   = $autossh::params::autossh_build,
   $autossh_package = $autossh::params::autossh_package,
   $init_template   = $autossh::params::init_template,
-  $pubkey          = $autossh::params::pubkey,
   $enable          = $autossh::params::enable,
-  $tunnel_type     = $autossh::params::tunnel_type,
-  $remote_ssh_port = $autossh::params::remote_ssh_port,
-  $monitor_port    = $autossh::params::montior_port,
 ) inherits autossh::params {
   include ::autossh::install
 }

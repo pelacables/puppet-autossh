@@ -15,7 +15,8 @@
 # $hostport:        The remote port to be used for the tunnel.
 # $remote_ssh_host: The remote host to connect to.
 # $remote_ssh_port: The remote ssh port to connect to.
-# $monitor_port:    ??
+# $monitor_port:    Used by autossh to test the state of connections 
+#                   via an echo.
 # $enable:          Enable/Disable this service.
 # $pubkey:          The public key to be used for this service. 
 #                   (installed on remote host via exported resource)
@@ -50,12 +51,12 @@ define autossh::tunnel(
   $port,
   $hostport,
   $remote_ssh_host,
-  $user             = $autossh::user,
-  $tunnel_type      = $autossh::tunnel_type,
-  $remote_ssh_port  = $autossh::remote_ssh_port,
-  $monitor_port     = $autossh::monitor_port,
-  $enable           = $autossh::enable,
-  $pubkey           = $autossh::pubkey,
+  $user             = $autossh::params::user,
+  $tunnel_type      = $autossh::params::tunnel_type,
+  $remote_ssh_port  = $autossh::params::remote_ssh_port,
+  $monitor_port     = $autossh::params::monitor_port,
+  $enable           = $autossh::params::enable,
+  $pubkey           = $autossh::params::pubkey,
 ){
   $tun_name     = $title
   $tunnel_args  = $tunnel_type ? {
@@ -118,10 +119,11 @@ define autossh::tunnel(
 
   ## Define remote endpoints
   @@autossh::tunnel_endpoint {"tunnel-enpoint-${remote_ssh_host}-${port}":
-    user   => $user,
-    port   => $hostport,
-    host   => $remote_ssh_host,
-    pubkey => $pubkey,
-    enable => $enable,
+    user         => $user,
+    port         => $hostport,
+    monitor_port => $monitor_port,
+    host         => $remote_ssh_host,
+    pubkey       => $pubkey,
+    enable       => $enable,
   }
 }

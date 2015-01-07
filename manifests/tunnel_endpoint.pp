@@ -23,6 +23,7 @@
 #    enable => true,
 #    user   => 'autossh',
 #    port   => '25',
+#    monitor_port = '2000',
 #    host   => 'server1.foo.bar',
 #    pubkey => 'ssh-dss IOUEOWDOQ...'
 #  }
@@ -38,9 +39,10 @@
 define autossh::tunnel_endpoint(
   $port,
   $host,
-  $pubkey = $autossh::pubkey,
-  $enable = $autossh::enable,
-  $user   = $autossh::user,
+  $monitor_port = $autossh::params::monitor_port,
+  $pubkey = $autossh::params::pubkey,
+  $enable = $autossh::params::enable,
+  $user   = $autossh::params::user,
 )
 {
   concat::fragment{"autossh_${user}_authkey_${host}_${port}":
