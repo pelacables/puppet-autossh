@@ -54,6 +54,16 @@ class autossh::install {
             package{'redhat-lsb-core': ensure => installed }
           }
         } # case rhel 5|6
+        /7/: {
+          file{'autossh-tunnel.sh':
+            ensure  => 'present',
+            path    => '/etc/autossh/autossh-tunnel.sh',
+            mode    => '0750',
+            owner   => 'root',
+            group   => 'root',
+            content => template('autossh/autossh.init.systemd.erb'),
+          }
+        } # case rhel 7
         default: {
         }
       }
