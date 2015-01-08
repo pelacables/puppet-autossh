@@ -31,7 +31,7 @@ Management of the private key is left to you as care needs to be taken to ensure
 Simple Example
 ------
 
-The simple example creates a single ssh tunnel between two nodes, starting at the origin and terminating at the 'destination'.
+The simple example creates a single ssh tunnel between two nodes, starting at the origin and terminating at the 'destination' using DSL only:
 
 **Prepare Private/Public Keys**
 
@@ -69,7 +69,7 @@ for the run user (default: /home/autossh/.ssh/) and the public key used when con
 Complex Example
 ------
 
-The following example creates multiple ssh port forwards between two nodes, the Origin and Destination.
+The following example creates multiple ssh port forwards between two nodes, the Origin and Destination using DSL and Hiera.  This example also includes the installation of the private key which is stored using hiera-eyaml and default values to reduce the specific instance configuration.
 
 **Role - Origin Node**
 
@@ -106,12 +106,10 @@ autossh::tunnels:
     port: 8140
     hostport: 8140
     remote_ssh_host: 172.16.255.2
-    enable: true
   tunnel_smtp:
     port: 25
     hostport: 1125
     remote_ssh_host: 172.16.255.2
-    enable: true
 
 autossh::user: 'autossh'
 autossh::privkey: ENC[PKCS7, OMITTED]
@@ -121,6 +119,7 @@ autossh::defaults:
   user: autossh
   remote_ssh_port: 22
   monitor_port: 0
+  enable: true
 
 ```
 

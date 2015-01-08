@@ -3,7 +3,7 @@
 # connection for <%= @host -%> forwarding port <%= @port %> and any monitor ports (if enabled).
 #
 <% if monitor_port != 0 -%>
-command="echo Interactive Access Denied",no-agent-forwarding,no-X11-forwarding,permitopen="localhost:<%= @port -%>",permitopen:"<%= @monitorport -%>",permitopen="<%= @monitor_port.to_i + 1 -%>" <%= @pubkey %>
+command="echo Interactive Access Denied",no-agent-forwarding,no-X11-forwarding,permitopen="localhost:<%= @port -%>",permitopen:"<%= @monitor_port -%>",permitopen="<%= @monitor_port.to_i + 1 -%>" <%= @pubkey %>
 <% end -%>
 <% if monitor_port == 0 -%>
 command="echo Interactive Access Denied",no-agent-forwarding,no-X11-forwarding,permitopen="localhost:<%= @port -%>" <%= @pubkey %>
