@@ -52,7 +52,9 @@ class autossh::install {
       case $::operatingsystemmajrelease {
         /6/: {
           if(!defined(Package['redhat-lsb-core'])) {
-            package{'redhat-lsb-core': ensure => installed }
+            package{'redhat-lsb-core':
+              ensure => installed,
+              before => Package['autossh'] }
           }
         } # case rhel 6
         /7/: {
