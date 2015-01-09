@@ -21,12 +21,12 @@
 # Copyright 2014 Jason Ball.
 #
 class autossh::install {
-  $user            = $autossh::user
-  $autossh_package = $autossh::autossh_package
-  $enable_ssh_reuse = $autossh::enable_ssh_reuse
+  $user                   = $autossh::user
+  $autossh_package        = $autossh::autossh_package
+  $enable_ssh_reuse       = $autossh::enable_ssh_reuse
   $ssh_reuse_established_connections = $autossh::reuse_established_connections
-  $ssh_enable_compression = $autossh::params::ssh_enable_compression
-  $ssh_ciphers            = $autossh::params::ssh_ciphers
+  $ssh_enable_compression = $autossh::ssh_enable_compression
+  $ssh_ciphers            = $autossh::ssh_ciphers
 
 
   ## If the target user account doesn't exist, create it...
