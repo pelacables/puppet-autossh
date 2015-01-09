@@ -45,6 +45,8 @@ class autossh(
   $enable          = $autossh::params::enable,
   $ssh_reuse_established_connections =
     $autossh::params::ssh_reuse_established_connections,
+  $ssh_enable_compression = $autossh::params::ssh_enable_compression,
+  $ssh_ciphers = $autossh::params::ssh_ciphers,
 ) inherits autossh::params {
   include ::autossh::install
 }

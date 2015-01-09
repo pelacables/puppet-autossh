@@ -17,6 +17,8 @@
 # $monitor_port: 0 default monitoring port number for autossh
 # $ssh_reuse_established_connections: default enable reuse of already 
 #              established ssh connections, if any.  Requires ssh > 5.5.
+# $ssh_compression: enable/disable ssh compression 
+# $ssh_ciphers: cipher selection ordering.  (fastest -> slowest)
 #
 # === Examples
 #
@@ -41,6 +43,9 @@ class autossh::params {
   $remote_ssh_port  = '22'
   $monitor_port     = '0'
   $ssh_reuse_established_connections = false  ## Requires openssh > v5.5
+  $ssh_enable_compression = false ## Not really useful for local connections 
+  $ssh_ciphers = '
+    blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc'
 
 
   case $::osfamily {
