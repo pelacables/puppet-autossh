@@ -23,7 +23,6 @@
 class autossh::install {
   $user                   = $autossh::user
   $autossh_package        = $autossh::autossh_package
-  $enable_ssh_reuse       = $autossh::enable_ssh_reuse
   $ssh_reuse_established_connections = $autossh::reuse_established_connections
   $ssh_enable_compression = $autossh::ssh_enable_compression
   $ssh_ciphers            = $autossh::ssh_ciphers
@@ -138,6 +137,7 @@ class autossh::install {
   ##
   ## Global Settings
   ##
+  $remote_ssh_host = '*'
   concat::fragment { "home_${user}_ssh_config_global":
     target  => "/home/${user}/.ssh/config",
     content => template('autossh/config.erb'),

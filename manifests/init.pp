@@ -20,6 +20,8 @@
 # $ssh_reuse_established_connections  =  $enable_ssh_reuse: default enable 
 #                   reuse of already established ssh connections, if any. 
 #                   Requires openssh > 5.5.
+# $ssh_enable_compression = enable/disable compression
+# $ssh_ciphers      = set chiper path from lest to most expensive
 #
 # === Variables
 #

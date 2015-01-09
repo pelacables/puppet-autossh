@@ -20,6 +20,13 @@
 # $enable:          Enable/Disable this service.
 # $pubkey:          The public key to be used for this service. 
 #                   (installed on remote host via exported resource)
+# $ssh_reuse_established_connections  =  $enable_ssh_reuse: default enable 
+#                   reuse of already established ssh connections, if any. 
+#                   Requires openssh > 5.5.
+# $ssh_enable_compression = enable/disable compression
+# $ssh_ciphers      = set chiper path from lest to most expensive
+#
+
 #
 # === Variables
 #
@@ -57,6 +64,10 @@ define autossh::tunnel(
   $monitor_port     = $autossh::params::monitor_port,
   $enable           = $autossh::params::enable,
   $pubkey           = $autossh::params::pubkey,
+  $ssh_reuse_established_connections =
+    $autossh::params::reuse_established_connections,
+  $ssh_enable_compression = $autossh::params::ssh_enable_compression,
+  $ssh_ciphers            = $autossh::params::ssh_ciphers,
 ){
   $tun_name     = $title
   $tunnel_args  = $tunnel_type ? {
@@ -72,7 +83,6 @@ define autossh::tunnel(
     group   => $user,
     content => template('autossh/autossh.conf.erb'),
   }
-
 
   #
   # User sysV or systemd init depending on the OS
@@ -118,12 +128,26 @@ define autossh::tunnel(
   }
 
   ## Define remote endpoints
-  @@autossh::tunnel_endpoint {"tunnel-enpoint-${remote_ssh_host}-${port}":
+  @@autossh::tunnel_endpoint {
+    "tunnel-enpoint-${remote_ssh_host}-${port}":
     user         => $user,
     port         => $hostport,
     monitor_port => $monitor_port,
     host         => $remote_ssh_host,
     pubkey       => $pubkey,
     enable       => $enable,
+  }
+
+  ##
+  ## Host Settings -- only the first declaraion applies...
+  ## as the filter is host specific, not host_port match...
+  ##
+  if ! defined(Concat::Fragment["home_${user}_ssh_config_${remote_ssh_host}"])
+  {
+    concat::fragment { "home_${user}_ssh_config_${remote_ssh_host}":
+      target  => "/home/${user}/.ssh/config",
+      content => template('autossh/config.erb'),
+      order   => 10,
+    }
   }
 }

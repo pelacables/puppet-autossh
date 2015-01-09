@@ -1,4 +1,4 @@
-Host *
+Host <%= @remote_ssh_host %>
 Ciphers = <%= @ssh_ciphers %>
 <% if ssh_reuse_established_connections == true -%>
 ControlMaster auto
@@ -11,3 +11,4 @@ Compression yes
 <% if ssh_enable_compression == false -%>
 Compression no
 <% end -%>
+
