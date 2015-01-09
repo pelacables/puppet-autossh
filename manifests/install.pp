@@ -28,6 +28,10 @@ class autossh::install {
   $ssh_enable_compression = $autossh::params::ssh_enable_compression
   $ssh_ciphers            = $autossh::params::ssh_ciphers
 
+  File {
+    overwrite => yes,
+    backup    => yes,
+  }
 
   ## If the target user account doesn't exist, create it...
   if ! defined(User[$user]) {
