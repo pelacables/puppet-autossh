@@ -29,8 +29,6 @@ class autossh::install {
   $ssh_stricthostkeychecking = $autossh::ssh_stricthostkeychecking
   $ssh_tcpkeepalives = $autossh::ssh_tcpkeepalives
 
-
-
   ## If the target user account doesn't exist, create it...
   if ! defined(User[$user]) {
     user { $user:
