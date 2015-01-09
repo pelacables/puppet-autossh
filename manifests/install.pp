@@ -23,7 +23,8 @@
 class autossh::install {
   $user            = $autossh::user
   $autossh_package = $autossh::autossh_package
-
+  $enable_ssh_reuse = $autossh::enable_ssh_reuse
+  $ssh_reuse_established_connections = $autossh::reuse_established_connections
 
   ## If the target user account doesn't exist, create it...
   if ! defined(User[$user]) {
@@ -32,6 +33,13 @@ class autossh::install {
       system     => true,
       shell      => '/bin/bash',
     }
+  }
+
+  file { "/home/${user}/.ssh":
+    ensure => directory,
+    owner  => $user,
+    group  => $user,
+    mode   => '0700'
   }
         
 
@@ -71,7 +79,7 @@ class autossh::install {
         }
       }
 
-      # requireed on all rhel platforms
+      # required on all rhel platforms
       if(!defined(Package['openssh-clients'])) {
         package{'openssh-clients': ensure => installed }
       }
@@ -99,4 +107,26 @@ class autossh::install {
       fail("Unsupported OS Family: ${::osfamily}")
     }
   } #case
+
+
+  ## Configure reuse of established connections. 
+  ## Nice but little known feature of ssh.
+  if $ssh_reuse_established_connections {
+
+    file { "/home/${user}/.ssh/sockets":
+      ensure => directory,
+      owner  => $user,
+      group  => $user,
+      mode   => '0700'
+    }
+
+    file { "/home/${user}/.ssh/config":
+      ensure  => file,
+      owner   => $user,
+      group   => $user,
+      mode    => '0600',
+      content => template('autossh/config.erb')
+    }
+
+  }
 }

@@ -11,6 +11,12 @@
 # $user: The user account to be used to run autossh processes.
 # $enable: enable/disable package support.
 # $autossh_package: The package to be installed for autossh support.
+# $pubkey: default pubkey.. not all that useful really.
+# $tunnel_type: default tunnel type
+# $remote_ssh_port: default remote ssh port number
+# $monitor_port: 0 default monitoring port number for autossh
+# $ssh_reuse_established_connections: default enable reuse of already 
+#              established ssh connections, if any.  Requires ssh > 5.5.
 #
 # === Examples
 #
@@ -34,6 +40,7 @@ class autossh::params {
   $tunnel_type      = 'forward'
   $remote_ssh_port  = '22'
   $monitor_port     = '0'
+  $ssh_reuse_established_connections = false  ## Requires openssh > v5.5
 
 
   case $::osfamily {

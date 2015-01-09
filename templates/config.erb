@@ -1,0 +1,5 @@
+<%= if @ssh_reuse_established_connections -%>
+Host *
+ControlMaster auto
+ControlPath ~/.ssh/sockets/%r@%g-%p
+ControlPersist 600

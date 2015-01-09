@@ -17,6 +17,9 @@
 # $pubkey          = Public key to use for tunnels.  If supplied at this level 
 #                    is used as the default for all tunnels.
 # $enable          = enable/disable the tunnel
+# $ssh_reuse_established_connections  =  $enable_ssh_reuse: default enable 
+#                   reuse of already established ssh connections, if any. 
+#                   Requires openssh > 5.5.
 #
 # === Variables
 #
@@ -40,6 +43,8 @@ class autossh(
   $autossh_package = $autossh::params::autossh_package,
   $init_template   = $autossh::params::init_template,
   $enable          = $autossh::params::enable,
+  $ssh_reuse_established_connections =
+    $autossh::params::ssh_reuse_established_connections,
 ) inherits autossh::params {
   include ::autossh::install
 }
