@@ -19,12 +19,14 @@ However this module has been rewritten to provide:
 * Support for Hiera integration
 * Support for configuration of the 'tunnel endpoint'
 * Secure configuration of the tunnel endpoint.
+* Customistion of the important ssh configurations for the ssh tunnels.
 
 As tested this module can support any number of ssh tunnels on any given host, and automatically syncronises the tunnel endpoints providing both nodes connect to the same puppetdb.
 
 The 'autossh' service provides a reliability and monitoring capability for the ssh tunnels, this includes monitoring the link via a separate 'monitoring ports' if configured and automatically restarting the ssh session if it fails due to an abnormal termination or error detected on the monitoring port.   I'm gradually adding more functionality here to support customisation of the ssh parameters to watch this space as the module develops.
 
 Management of the private key is left to you as care needs to be taken to ensure this private key is adequately protected.  I've encrypted the private key using eyaml and find this a convenient approach but that does depend on having hiera configured correctly.
+
 
 
 ##Classes
