@@ -122,14 +122,12 @@ class autossh::install {
       group  => $user,
       mode   => '0700'
     }
-
-    file { "/home/${user}/.ssh/config":
-      ensure  => file,
-      owner   => $user,
-      group   => $user,
-      mode    => '0600',
-      content => template('autossh/config.erb')
-    }
-
+  }
+  file { "/home/${user}/.ssh/config":
+    ensure  => file,
+    owner   => $user,
+    group   => $user,
+    mode    => '0600',
+    content => template('autossh/config.erb')
   }
 }
