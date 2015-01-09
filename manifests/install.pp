@@ -125,12 +125,23 @@ class autossh::install {
       mode   => '0700'
     }
   }
-  file { "/home/${user}/.ssh/config":
-    ensure  => file,
-    owner   => $user,
-    group   => $user,
-    mode    => '0600',
-    content => template('autossh/config.erb'),
-    replace => yes,
+
+  ##
+  ## ssh config file
+  ##
+  concat {"/home/${user}.ssh/config":
+    owner => $user,
+    group => $user,
+    mode  => '0600',
   }
+
+  ##
+  ## Global Settings
+  ##
+  concat::fragment { "/home/${user}.ssh/config":
+    content => template('autossh/config.erb'),
+    order   => 1,
+  }
+
+
 }
