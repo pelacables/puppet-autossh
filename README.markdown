@@ -175,7 +175,7 @@ Configure the endpoint (target) for an ssh connection.   This class is run on th
 
 #####`user`
 
-The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to `autossh`
+The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to 'autossh'
 
 #####`host`
 
