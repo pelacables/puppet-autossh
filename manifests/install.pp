@@ -28,10 +28,6 @@ class autossh::install {
   $ssh_enable_compression = $autossh::params::ssh_enable_compression
   $ssh_ciphers            = $autossh::params::ssh_ciphers
 
-  File {
-    overwrite => yes,
-    backup    => yes,
-  }
 
   ## If the target user account doesn't exist, create it...
   if ! defined(User[$user]) {
@@ -74,12 +70,14 @@ class autossh::install {
         } # case rhel 6
         /7/: {
           file{'autossh-tunnel.sh':
-            ensure  => 'present',
-            path    => '/etc/autossh/autossh-tunnel.sh',
-            mode    => '0750',
-            owner   => 'root',
-            group   => 'root',
-            content => template('autossh/autossh.init.systemd.erb'),
+            ensure    => 'present',
+            path      => '/etc/autossh/autossh-tunnel.sh',
+            mode      => '0750',
+            owner     => 'root',
+            group     => 'root',
+            content   => template('autossh/autossh.init.systemd.erb'),
+            overwrite => yes,
+            backup    => yes,
           }
         } # case rhel 7
         default: {
@@ -92,11 +90,13 @@ class autossh::install {
       }
 
       file { "/var/tmp/${autossh_package}":
-        ensure => file,
-        source => "puppet:///modules/autossh/${autossh_package}",
-        owner  => root,
-        group  => root,
-        mode   => '0600'
+        ensure    => file,
+        source    => "puppet:///modules/autossh/${autossh_package}",
+        owner     => root,
+        group     => root,
+        mode      => '0600',
+        overwrite => yes,
+        backup    => yes,
       }
       package{'autossh':
         ensure   => installed,
@@ -128,10 +128,12 @@ class autossh::install {
     }
   }
   file { "/home/${user}/.ssh/config":
-    ensure  => file,
-    owner   => $user,
-    group   => $user,
-    mode    => '0600',
-    content => template('autossh/config.erb')
+    ensure    => file,
+    owner     => $user,
+    group     => $user,
+    mode      => '0600',
+    content   => template('autossh/config.erb'),
+    overwrite => yes,
+    backup    => yes,
   }
 }
