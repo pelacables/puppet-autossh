@@ -26,6 +26,9 @@ class autossh::install {
   $ssh_reuse_established_connections = $autossh::reuse_established_connections
   $ssh_enable_compression = $autossh::ssh_enable_compression
   $ssh_ciphers            = $autossh::ssh_ciphers
+  $ssh_stricthostkeychecking = $autossh::ssh_stricthostkeychecking
+  $ssh_tcpkeepalives = $autossh::ssh_tcpkeepalives
+
 
 
   ## If the target user account doesn't exist, create it...
