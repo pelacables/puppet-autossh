@@ -77,7 +77,6 @@ class autossh::install {
             group   => 'root',
             content => template('autossh/autossh.init.systemd.erb'),
             replace => yes,
-            backup  => yes,
           }
         } # case rhel 7
         default: {
@@ -96,7 +95,6 @@ class autossh::install {
         group   => root,
         mode    => '0600',
         replace => yes,
-        backup  => yes,
       }
       package{'autossh':
         ensure   => installed,
@@ -134,6 +132,5 @@ class autossh::install {
     mode    => '0600',
     content => template('autossh/config.erb'),
     replace => yes,
-    backup  => yes,
   }
 }
