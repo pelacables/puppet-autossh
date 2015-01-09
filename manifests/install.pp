@@ -129,7 +129,7 @@ class autossh::install {
   ##
   ## ssh config file
   ##
-  concat {"/home/${user}.ssh/config":
+  concat {"/home/${user}/.ssh/config":
     owner => $user,
     group => $user,
     mode  => '0600',
@@ -138,7 +138,8 @@ class autossh::install {
   ##
   ## Global Settings
   ##
-  concat::fragment { "/home/${user}.ssh/config":
+  concat::fragment { "home_${user}_ssh_config_global":
+    target  => "/home/${user}/.ssh/config",
     content => template('autossh/config.erb'),
     order   => 1,
   }
