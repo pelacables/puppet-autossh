@@ -70,14 +70,14 @@ class autossh::install {
         } # case rhel 6
         /7/: {
           file{'autossh-tunnel.sh':
-            ensure    => 'present',
-            path      => '/etc/autossh/autossh-tunnel.sh',
-            mode      => '0750',
-            owner     => 'root',
-            group     => 'root',
-            content   => template('autossh/autossh.init.systemd.erb'),
-            overwrite => yes,
-            backup    => yes,
+            ensure  => 'present',
+            path    => '/etc/autossh/autossh-tunnel.sh',
+            mode    => '0750',
+            owner   => 'root',
+            group   => 'root',
+            content => template('autossh/autossh.init.systemd.erb'),
+            replace => yes,
+            backup  => yes,
           }
         } # case rhel 7
         default: {
@@ -90,13 +90,13 @@ class autossh::install {
       }
 
       file { "/var/tmp/${autossh_package}":
-        ensure    => file,
-        source    => "puppet:///modules/autossh/${autossh_package}",
-        owner     => root,
-        group     => root,
-        mode      => '0600',
-        overwrite => yes,
-        backup    => yes,
+        ensure  => file,
+        source  => "puppet:///modules/autossh/${autossh_package}",
+        owner   => root,
+        group   => root,
+        mode    => '0600',
+        replace => yes,
+        backup  => yes,
       }
       package{'autossh':
         ensure   => installed,
@@ -128,12 +128,12 @@ class autossh::install {
     }
   }
   file { "/home/${user}/.ssh/config":
-    ensure    => file,
-    owner     => $user,
-    group     => $user,
-    mode      => '0600',
-    content   => template('autossh/config.erb'),
-    overwrite => yes,
-    backup    => yes,
+    ensure  => file,
+    owner   => $user,
+    group   => $user,
+    mode    => '0600',
+    content => template('autossh/config.erb'),
+    replace => yes,
+    backup  => yes,
   }
 }
