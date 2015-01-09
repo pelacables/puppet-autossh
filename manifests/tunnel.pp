@@ -20,6 +20,7 @@
 # $enable:          Enable/Disable this service.
 # $pubkey:          The public key to be used for this service. 
 #                   (installed on remote host via exported resource)
+# $enable_host_ssh_config: enable host specific configs
 # $ssh_reuse_established_connections  =  $enable_ssh_reuse: default enable 
 #                   reuse of already established ssh connections, if any. 
 #                   Requires openssh > 5.5.
@@ -64,6 +65,7 @@ define autossh::tunnel(
   $monitor_port     = $autossh::params::monitor_port,
   $enable           = $autossh::params::enable,
   $pubkey           = $autossh::params::pubkey,
+  $enable_host_ssh_config = false,
   $ssh_reuse_established_connections =
     $autossh::params::reuse_established_connections,
   $ssh_enable_compression = $autossh::params::ssh_enable_compression,
@@ -142,12 +144,14 @@ define autossh::tunnel(
   ## Host Settings -- only the first declaraion applies...
   ## as the filter is host specific, not host_port match...
   ##
-  if ! defined(Concat::Fragment["home_${user}_ssh_config_${remote_ssh_host}"])
-  {
-    concat::fragment { "home_${user}_ssh_config_${remote_ssh_host}":
-      target  => "/home/${user}/.ssh/config",
-      content => template('autossh/config.erb'),
-      order   => 10,
+  if $enable_host_ssh_config {
+    if ! defined(Concat::Fragment["home_${user}_ssh_config_${remote_ssh_host}"])
+    {
+      concat::fragment { "home_${user}_ssh_config_${remote_ssh_host}":
+        target  => "/home/${user}/.ssh/config",
+        content => template('autossh/config.erb'),
+        order   => 1,
+      }
     }
   }
 }

@@ -141,7 +141,7 @@ class autossh::install {
   concat::fragment { "home_${user}_ssh_config_global":
     target  => "/home/${user}/.ssh/config",
     content => template('autossh/config.erb'),
-    order   => 1,
+    order   => 10,
   }
 
 
