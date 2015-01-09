@@ -44,8 +44,8 @@ class autossh::params {
   $monitor_port     = '0'
   $ssh_reuse_established_connections = false  ## Requires openssh > v5.5
   $ssh_enable_compression = false ## Not really useful for local connections 
-  $ssh_ciphers = '
-    blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc'
+  $ssh_ciphers =
+    'blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc'
 
 
   case $::osfamily {
