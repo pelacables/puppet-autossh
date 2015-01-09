@@ -1,5 +1,4 @@
-autossh
-==============
+##autossh
 
 The autossh module facilitates the automated management of ssh based port forward between nodes.  The ssh tunnels are run via the 'autossh' wrapper 
 which starts/monitors and restarts the tunnels if and when they close.   This service:
@@ -27,6 +26,44 @@ The 'autossh' service provides a reliability and monitoring capability for the s
 
 Management of the private key is left to you as care needs to be taken to ensure this private key is adequately protected.  I've encrypted the private key using eyaml and find this a convenient approach but that does depend on having hiera configured correctly.
 
+
+##Classes
+
+autossh
+----
+
+The 'autossh' class configures the autossh environment, installs the required package support, and configures the global ssh options to be applied to ssh sessions.
+
+```
+Class {'::autossh': 
+}
+```
+
+parameters
+----
+#####`user`
+
+The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to `autossh`
+
+#####`autossh_version`
+
+The version of autossh to install.  Only applies when the packaged autossh rpm is installed on systems lacking autossh support.
+
+#####`autossh_build`
+
+  $autossh_package = $autossh::params::autossh_package,
+  $init_template   = $autossh::params::init_template,
+  $enable          = $autossh::params::enable,
+  $ssh_reuse_established_connections =
+    $autossh::params::ssh_reuse_established_connections,
+  $ssh_enable_compression = $autossh::params::ssh_enable_compression,
+  $ssh_ciphers = $autossh::params::ssh_ciphers,
+  $ssh_stricthostkeychecking = $autossh::params::ssh_stricthostkeychecking,
+  $ssh_tcpkeepalives = $autossh::params::ssh_tcpkeepalives,
+
+
+
+##Examples 
 
 Simple Example
 ------
