@@ -1,6 +1,6 @@
 Host *
 Ciphers = <%= @ssh_ciphers -%>
-<%= if ssh_reuse_established_connections -%>
+<% if ssh_reuse_established_connections -%>
 ControlMaster auto
 ControlPath ~/.ssh/sockets/%r@%g-%p
 ControlPersist 600
