@@ -19,6 +19,7 @@
 #              established ssh connections, if any.  Requires ssh > 5.5.
 # $ssh_compression: enable/disable ssh compression 
 # $ssh_ciphers: cipher selection ordering.  (fastest -> slowest)
+# $ssh_stricthostkeychecking: enable/disable strict host key checking
 #
 # === Examples
 #
@@ -46,6 +47,7 @@ class autossh::params {
   $ssh_enable_compression = false ## Not really useful for local connections 
   $ssh_ciphers =
     'blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc'
+  $ssh_stricthostkeychecking = false
 
 
   case $::osfamily {

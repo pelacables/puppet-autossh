@@ -11,4 +11,6 @@ Compression yes
 <% if ssh_enable_compression == false -%>
 Compression no
 <% end -%>
-
+<% if ssh_stricthostkeychecking == false -%>
+StrictHostKeyChecking no
+<% end -%>

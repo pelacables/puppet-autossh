@@ -26,6 +26,7 @@
 #                   Requires openssh > 5.5.
 # $ssh_enable_compression = enable/disable compression
 # $ssh_ciphers      = set chiper path from lest to most expensive
+# ssh_stricthostkeychecking = enable/disable strict host key checking
 #
 
 #
@@ -70,6 +71,7 @@ define autossh::tunnel(
     $autossh::params::reuse_established_connections,
   $ssh_enable_compression = $autossh::params::ssh_enable_compression,
   $ssh_ciphers            = $autossh::params::ssh_ciphers,
+  $ssh_stricthostkeychecking = $authssh::params::ssh_stricthostkeychecking,
 ){
   $tun_name     = $title
   $tunnel_args  = $tunnel_type ? {

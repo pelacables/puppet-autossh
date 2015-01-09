@@ -22,6 +22,7 @@
 #                   Requires openssh > 5.5.
 # $ssh_enable_compression = enable/disable compression
 # $ssh_ciphers      = set chiper path from lest to most expensive
+# $ssh_stricthostkeychecking = enable/disable strict host key checking
 #
 # === Variables
 #
@@ -49,6 +50,7 @@ class autossh(
     $autossh::params::ssh_reuse_established_connections,
   $ssh_enable_compression = $autossh::params::ssh_enable_compression,
   $ssh_ciphers = $autossh::params::ssh_ciphers,
+  $ssh_stricthostkeychecking = $autossh::params::ssh_stricthostkeychecking,
 ) inherits autossh::params {
   include ::autossh::install
 }
