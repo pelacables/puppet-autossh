@@ -20,6 +20,7 @@
 # $ssh_compression: enable/disable ssh compression 
 # $ssh_ciphers: cipher selection ordering.  (fastest -> slowest)
 # $ssh_stricthostkeychecking: enable/disable strict host key checking
+# $ssh_tcpkeepalives: enable/disable tcp keepalives
 #
 # === Examples
 #
@@ -48,6 +49,7 @@ class autossh::params {
   $ssh_ciphers =
     'blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc'
   $ssh_stricthostkeychecking = false
+  $ssh_tcpkeepalives = true
 
 
   case $::osfamily {

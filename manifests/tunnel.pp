@@ -27,8 +27,7 @@
 # $ssh_enable_compression = enable/disable compression
 # $ssh_ciphers      = set chiper path from lest to most expensive
 # ssh_stricthostkeychecking = enable/disable strict host key checking
-#
-
+# $ssh_tcpkeepalives: enable/disable tcp keepalives
 #
 # === Variables
 #
@@ -71,7 +70,8 @@ define autossh::tunnel(
     $autossh::params::reuse_established_connections,
   $ssh_enable_compression = $autossh::params::ssh_enable_compression,
   $ssh_ciphers            = $autossh::params::ssh_ciphers,
-  $ssh_stricthostkeychecking = $authssh::params::ssh_stricthostkeychecking,
+  $ssh_stricthostkeychecking = $autossh::params::ssh_stricthostkeychecking,
+  $ssh_tcpkeepalives = $autossh::params::ssh_tcpkeepalives,
 ){
   $tun_name     = $title
   $tunnel_args  = $tunnel_type ? {
