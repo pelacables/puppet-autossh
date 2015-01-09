@@ -34,13 +34,13 @@ autossh
 
 The 'autossh' class configures the autossh environment, installs the required package support, and configures the global ssh options to be applied to ssh sessions.
 
+This class needs to be run on all nodes using autossh.
+
 ```
 Class {'::autossh': 
 }
 ```
 
-parameters
-----
 #####`user`
 
 The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to `autossh`
@@ -50,17 +50,136 @@ The linux user account to be used to run the ssh sessions.  Ideally this should 
 The version of autossh to install.  Only applies when the packaged autossh rpm is installed on systems lacking autossh support.
 
 #####`autossh_build`
+ 
+The package build to install.  Only applies when the packaged autossh rpm is installed on systems lacking autossh support.
 
-  $autossh_package = $autossh::params::autossh_package,
-  $init_template   = $autossh::params::init_template,
-  $enable          = $autossh::params::enable,
-  $ssh_reuse_established_connections =
-    $autossh::params::ssh_reuse_established_connections,
-  $ssh_enable_compression = $autossh::params::ssh_enable_compression,
-  $ssh_ciphers = $autossh::params::ssh_ciphers,
-  $ssh_stricthostkeychecking = $autossh::params::ssh_stricthostkeychecking,
-  $ssh_tcpkeepalives = $autossh::params::ssh_tcpkeepalives,
+#####`autossh_package`
 
+The autossh rpm package name.  Only apples when the packaged autossh rpm is installed on systems lacking autossh support.
+
+#####`init_template`
+
+The template to use for the system init script.  Shouldn't need to change this.
+
+#####`enable`
+
+Enable/Disable this package and service.  This functionality is gradually being added, not overly useful right now.
+
+#####`ssh_reuse_established_connections`
+
+Enables ssh connection reuse if an established connection already exists to the target host.  This can speed up the time it takes to make the connection, note that this is only supported on 'openssh' > 5.5
+
+#####`ssh_enable_compression`
+
+Enables/Disables ssh compression in the tunnel.   Connections over slow links may benefit from compression, local lan connections are probably better off without it.
+
+#####`ssh_ciphers`
+
+Sets the cipher ordering for the ssh sessions.   The default is from 'fastest' to 'slowest'.
+
+#####`ssh_stricthostkeychecking`
+
+By default host key checking is disabled to enable connections to proceed without error. Without this setting an admin would need to ensure the target server was in the known hosts file.
+
+#####`ssh_tcpkeepalives`
+
+Enable/Disable TCP Keepalives to prevent firewalls from closing the tunnel.
+
+autossh::tunnel
+----
+
+Create a tunnel on the host including the necessary init scripts to start and stop the service.  Optionally ssh parameters can be customised on a per host basis.
+
+```
+  autossh::tunnel { 'port_25_tunnel_to_server1': 
+    port             => '25',
+    hostport         => '25',
+    remote_ssh_host  => 'server1',
+    pubkey           => 'ssh-dss <OMITTED>'
+  } 
+```
+
+#####`user`
+
+The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to `autossh`
+
+#####`tunnel_type`
+
+The direction of the ssh tunnel.  'forward' for 'host --> target' and 'reverse' for 'target` --> 'host'
+
+#####`port`
+
+The local port to be used for the ssh tunnel
+
+#####`hostport`
+
+The remote port to be used for the ssh tunnel
+
+#####`remote_ssh_host`
+
+The remote host/ip to connect to for the tunnel.
+
+#####`remote_ssh_port`
+
+The remote port to connect to for the tunnel.
+
+#####`monitor_port`
+
+The port(s) to use for the autossh monitoring functionality.   2 ports are actually used, the base port and the base port + 1 (.i.e. 20000 and 20001).
+
+#####`pubkey`
+
+The public key to use for the authentication of this connection.
+
+#####`enable`
+
+Enable/Disable this package and service.  This functionality is gradually being added, not overly useful right now.
+
+#####`enable_host_ssh_config`
+
+Enable host specific ssh configurations.  This will override the global settings created in the autossh class.
+
+#####`ssh_reuse_established_connections`
+
+Enables ssh connection reuse if an established connection already exists to the target host.  This can speed up the time it takes to make the connection, note that this is only supported on 'openssh' > 5.5
+
+#####`ssh_enable_compression`
+
+Enables/Disables ssh compression in the tunnel.   Connections over slow links may benefit from compression, local lan connections are probably better off without it.
+
+#####`ssh_ciphers`
+
+Sets the cipher ordering for the ssh sessions.   The default is from 'fastest' to 'slowest'.
+
+#####`ssh_stricthostkeychecking`
+
+By default host key checking is disabled to enable connections to proceed without error. Without this setting an admin would need to ensure the target server was in the known hosts file.
+
+#####`ssh_tcpkeepalives`
+
+Enable/Disable TCP Keepalives to prevent firewalls from closing the tunnel.
+
+autossh::endpoint
+----
+
+Configure the endpoint (target) for an ssh connection.   This class is run on the destination nodes for any ssh tunnels.
+
+```
+
+ autossh::endpoint  { 'createtunnels': 
+   user   => 'autossh',
+   host   => 'server1.foo.bar',
+ }
+
+```
+
+#####`user`
+
+The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to `autossh`
+
+#####`host`
+
+The hostname/ip address specified in the 'authssh::tunnel', this is used to filter the tunnel::enpoint exported resources.
 
 
 ##Examples 
