@@ -1,8 +1,8 @@
 {
   "name": "agronaught-autossh",
-  "version": "1.2.2",
+  "version": "1.2.1",
   "author": "agronaught",
-  "summary": "Manage Standard and Reverse SSH Tunnels",
+  "summary": "Manage ssh tunnels/port forwarding under openssh including both the source (originator) and target (destination) servers.",
   "license": "Apache 2.0",
   "source": "https://github.com/agronaught/puppet-autossh",
   "project_page": "https://github.com/agronaught/puppet-autossh",

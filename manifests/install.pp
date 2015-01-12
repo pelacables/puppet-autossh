@@ -117,7 +117,6 @@ class autossh::install {
   ## Configure reuse of established connections. 
   ## Nice but little known feature of ssh.
   if $ssh_reuse_established_connections {
-
     file { "/home/${user}/.ssh/sockets":
       ensure => directory,
       owner  => $user,

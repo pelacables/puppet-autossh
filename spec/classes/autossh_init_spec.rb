@@ -34,7 +34,8 @@ describe 'autossh', :type => :class  do
   #
   context 'On RHEL6 based OS' do
     let(:facts) {{ :osfamily => 'RedHat',
-                   :operatingsystemmajrelease => '6' }}
+                   :operatingsystemmajrelease => '6',
+                   :concat_basedir => '/dne' }}
     
     it { 
       should contain_class('autossh')
@@ -47,7 +48,8 @@ describe 'autossh', :type => :class  do
   #
   context 'On RHEL7 based OS' do
     let(:facts) {{ :osfamily => 'RedHat',
-                   :operatingsystemmajrelease => '7' }}
+                   :operatingsystemmajrelease => '7',
+                   :concat_basedir => '/dne' }}
     
     it { 
       should contain_class('autossh')
@@ -60,7 +62,8 @@ describe 'autossh', :type => :class  do
   #
   context 'test default values' do
     let(:facts) {{ :osfamily => 'RedHat',
-                   :operatingsystemmajrelease => '6' }}
+                   :operatingsystemmajrelease => '6',
+                   :concat_basedir => '/dne' }}
     
     it { 
       should contain_class('autossh')
@@ -76,6 +79,7 @@ describe 'autossh', :type => :class  do
         :mode   => '0755',
         :owner  => 'root',
         :group  => 'root'
+
       ) 
     }
 
@@ -83,7 +87,8 @@ describe 'autossh', :type => :class  do
 
   context 'test default values' do
     let(:facts) {{ :osfamily => 'RedHat',
-                   :operatingsystemmajrelease => '7' }}
+                   :operatingsystemmajrelease => '7',
+                   :concat_basedir => '/dne' }}
     
     it { 
       should contain_class('autossh')
@@ -101,9 +106,78 @@ describe 'autossh', :type => :class  do
         :group  => 'root'
       ) 
       should contain_file('autossh-tunnel.sh')
+      should contain_Concat ("/home/autossh/.ssh/config")
+      should contain_Concat__Fragment("home_autossh_ssh_config_global")
+      should contain_Exec("concat_/home/autossh/.ssh/config")
+      should contain_file("/dne/_home_autossh_.ssh_config/fragments.concat.out")
+      should contain_file("/dne/_home_autossh_.ssh_config/fragments.concat")
+      should contain_file("/dne/_home_autossh_.ssh_config/fragments/10_home_autossh_ssh_config_global")
+      should contain_file("/dne/_home_autossh_.ssh_config/fragments")
+      should contain_file("/dne/_home_autossh_.ssh_config")
+      should contain_file("/dne/bin/concatfragments.sh")
+      should contain_file("/dne/bin")
+      should contain_file("/dne")
+      should contain_Class("Concat::Setup")
+      should contain_file("/home/autossh/.ssh/config")
+      should contain_file("/home/autossh/.ssh")
+      should contain_file("/var/tmp/autossh-1.4d-4.el7.centos.x86_64.rpm")
     }
 
   end
 
+  context 'test ssh_config default parameters' do
+    let(:facts) {{ :osfamily => 'RedHat',
+                   :operatingsystemmajrelease => '7',
+                   :concat_basedir => '/dne',
+                    }}
+    it { 
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").without({
+        :content => /ControlMaster auto\n/m
+      })
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /Host */m,
+      })
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /Ciphers = blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc\n/m,
+      })
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /Compression no\n/m,
+      })
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /StrictHostKeyChecking no\n/m,
+      })
+    }
 
+  end
+
+  context 'test ssh_config updated parameters' do
+    let(:facts) {{ :osfamily => 'RedHat',
+                   :operatingsystemmajrelease => '7',
+                   :ssh_reuse_established_connections => true, 
+                   :concat_basedir => '/dne',
+                   :remote_ssh_host => "x.y.z.p",
+                   :ssh_ciphers => "cipher chain",
+                   :ssh_enable_compression => "true",
+                   :ssh_stricthostkeychecking => "true", }}
+    it { 
+      should contain_file("/home/autossh/.ssh/sockets")
+
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /ControlMaster auto\n/m
+      })
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /Host */m,
+      })
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /Ciphers = blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc\n/m,
+      })
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /Compression yes/m,
+      })
+      should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
+        :content => /StrictHostKeyChecking yes\n/m,
+      })
+    }
+
+  end
 end
