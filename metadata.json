@@ -1,6 +1,6 @@
 {
   "name": "agronaught-autossh",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "author": "agronaught",
   "summary": "Manage ssh tunnels/port forwarding under openssh including both the source (originator) and target (destination) servers.",
   "license": "Apache 2.0",
