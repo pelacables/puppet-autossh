@@ -67,7 +67,7 @@ define autossh::tunnel(
   $pubkey           = $autossh::params::pubkey,
   $enable_host_ssh_config = false,
   $ssh_reuse_established_connections =
-    $autossh::params::reuse_established_connections,
+    $autossh::params::ssh_reuse_established_connections,
   $ssh_enable_compression = $autossh::params::ssh_enable_compression,
   $ssh_ciphers            = $autossh::params::ssh_ciphers,
   $ssh_stricthostkeychecking = $autossh::params::ssh_stricthostkeychecking,

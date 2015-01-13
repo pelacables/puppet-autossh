@@ -23,7 +23,8 @@
 class autossh::install {
   $user                   = $autossh::user
   $autossh_package        = $autossh::autossh_package
-  $ssh_reuse_established_connections = $autossh::reuse_established_connections
+  $ssh_reuse_established_connections =
+    $autossh::ssh_reuse_established_connections
   $ssh_enable_compression = $autossh::ssh_enable_compression
   $ssh_ciphers            = $autossh::ssh_ciphers
   $ssh_stricthostkeychecking = $autossh::ssh_stricthostkeychecking

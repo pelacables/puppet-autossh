@@ -160,8 +160,6 @@ describe 'autossh', :type => :class  do
                    :ssh_enable_compression => "true",
                    :ssh_stricthostkeychecking => "true", }}
     it { 
-      should contain_file("/home/autossh/.ssh/sockets")
-
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
         :content => /ControlMaster auto\n/m
       })
