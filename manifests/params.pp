@@ -53,7 +53,7 @@ class autossh::params {
   $ssh_reuse_established_connections = false  ## Requires openssh > v5.5
   $ssh_enable_compression = false ## Not really useful for local connections 
   $ssh_ciphers =
-    'blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc'
+    'blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc,aes128-ctr,aes192-ctr,aes256-ctr'
   $ssh_stricthostkeychecking = false
   $ssh_tcpkeepalives = true
 
