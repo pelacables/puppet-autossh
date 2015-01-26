@@ -135,16 +135,16 @@ describe 'autossh', :type => :class  do
         :content => /ControlMaster auto\n/m
       })
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
-        :content => /Host */m,
+        :content => /Host *\n/m
       })
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
-        :content => /Ciphers = blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc\n/m,
+        :content => /Ciphers =  blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc,aes128-ctr,aes192-ctr,aes256-ctr\n/m,
       })
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
-        :content => /Compression no\n/m,
+        :content => /Compression no\n/m
       })
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
-        :content => /StrictHostKeyChecking no\n/m,
+        :content => /StrictHostKeyChecking no\n/m
       })
     }
 
@@ -164,16 +164,16 @@ describe 'autossh', :type => :class  do
         :content => /ControlMaster auto\n/m
       })
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
-        :content => /Host */m,
+        :content => /Host *\n/m
       })
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
-        :content => /Ciphers = blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc\n/m,
+        :content => /Ciphers = blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc,aes128-ctr,aes192-ctr,aes256-ctr\n/m
       })
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
-        :content => /Compression yes/m,
+        :content => /Compression yes/m
       })
       should contain_Concat__Fragment("home_autossh_ssh_config_global").with({
-        :content => /StrictHostKeyChecking yes\n/m,
+        :content => /StrictHostKeyChecking yes\n/
       })
     }
 
