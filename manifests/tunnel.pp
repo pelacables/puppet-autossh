@@ -102,6 +102,7 @@ define autossh::tunnel(
             owner   => 'root',
             group   => 'root',
             content => template('autossh/autossh.init.sysv.erb'),
+            notify  => Service["autossh-${tun_name}"],
           }
         } # case rhel 5|6
 
@@ -113,6 +114,7 @@ define autossh::tunnel(
             owner   => 'root',
             group   => 'root',
             content => template('autossh/autossh.service.erb'),
+            notify  => Service["autossh-${tun_name}"],
           }
         }
 
