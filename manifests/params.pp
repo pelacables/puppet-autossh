@@ -13,7 +13,10 @@
 # $autossh_package: The package to be installed for autossh support.
 # $pubkey: default pubkey.. not all that useful really.
 # $tunnel_type: default tunnel type
+# $remote_ssh_user: detault remote ssh user
 # $remote_ssh_port: default remote ssh port number
+# $forward_host: default host to forward requests to
+# $bind: the local address to bind to
 # $monitor_port: 0 default monitoring port number for autossh
 # $ssh_reuse_established_connections: default enable reuse of already 
 #              established ssh connections, if any.  Requires ssh > 5.5.
@@ -42,7 +45,10 @@ class autossh::params {
   $enable           = true
   $pubkey           = ''
   $tunnel_type      = 'forward'
+  $remote_ssh_user  = 'autossh'
   $remote_ssh_port  = '22'
+  $bind             = 'localhost'
+  $forward_host     = 'localhost'
   $monitor_port     = '0'
   $ssh_reuse_established_connections = false  ## Requires openssh > v5.5
   $ssh_enable_compression = false ## Not really useful for local connections 

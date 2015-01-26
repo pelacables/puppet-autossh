@@ -27,7 +27,7 @@ SVC_NAME=autossh-$tunnel_name
 SVC_BIN=/usr/bin/autossh
 # Load config or exit
 . /etc/autossh/autossh-$tunnel_name.conf || (echo 'Config file not found!'; exit 1)
-SVC_CONF="${TUNNEL_ARGS} ${HOSTPORT}:localhost:${PORT} -p ${REMOTE_SSH_PORT} ${USER}@${REMOTE_SSH_HOST}"
+SVC_CONF="${TUNNEL_ARGS} ${BIND}:${PORT}:${FORWARD_HOST}:${HOSTPORT} -p ${REMOTE_SSH_PORT} ${REMOTE_SSH_USER}@${REMOTE_SSH_HOST}"
 
 STARTUP_WAIT=2
 SHUTDOWN_WAIT=2
