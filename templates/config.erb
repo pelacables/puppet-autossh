@@ -1,5 +1,7 @@
 Host <%= @remote_ssh_host %>
 Ciphers = <%= @ssh_ciphers %>
+KeepAlive yes
+ServerAliveInterval 60
 <% if ssh_reuse_established_connections == true -%>
 ControlMaster auto
 ControlPath ~/.ssh/sockets/%r@%g-%p
