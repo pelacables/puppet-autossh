@@ -1,28 +1,28 @@
 # == Class: autossh::tunnel
 #
-# Defines an ssh tunnel resource.  This class is run on the node that 
+# Defines an ssh tunnel resource.  This class is run on the node that
 # 'initiates' the ssh tunnel and
 #   * creates the 'autossh' configuration file
 #   * creates a system 'init' script.
 #   * starts/restarts the service as required.
-# 
+#
 # === Parameters
 #
 # $user:            The user account to use to run the ssh tunnel
-# $tunnel_type:     The tunnel direction. (forward --> local port to 
+# $tunnel_type:     The tunnel direction. (forward --> local port to
 #                   remote port, backward = remote port --> local port)
 # $port:            The local port to be used for the tunnel.
 # $hostport:        The remote port to be used for the tunnel.
 # $remote_ssh_host: The remote host to connect to.
 # $remote_ssh_port: The remote ssh port to connect to.
-# $monitor_port:    Used by autossh to test the state of connections 
+# $monitor_port:    Used by autossh to test the state of connections
 #                   via an echo.
 # $enable:          Enable/Disable this service.
-# $pubkey:          The public key to be used for this service. 
+# $pubkey:          The public key to be used for this service.
 #                   (installed on remote host via exported resource)
 # $enable_host_ssh_config: enable host specific configs
-# $ssh_reuse_established_connections  =  $enable_ssh_reuse: default enable 
-#                   reuse of already established ssh connections, if any. 
+# $ssh_reuse_established_connections  =  $enable_ssh_reuse: default enable
+#                   reuse of already established ssh connections, if any.
 #                   Requires openssh > 5.5.
 # $ssh_enable_compression = enable/disable compression
 # $ssh_ciphers      = set chiper path from lest to most expensive
@@ -34,7 +34,7 @@
 #
 # === Examples
 #
-#  autossh::tunnel  { 'testtunnel': 
+#  autossh::tunnel  { 'testtunnel':
 #    user            => 'autossh',
 #    tunnel_type     => 'backward',
 #    port            => '25',
@@ -89,6 +89,7 @@ define autossh::tunnel(
     owner   => $user,
     group   => $user,
     content => template('autossh/autossh.conf.erb'),
+    notify  => Service["autossh-${tun_name}"],
   }
 
   #
