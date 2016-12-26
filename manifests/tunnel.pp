@@ -19,7 +19,8 @@
 #                   via an echo.
 # $enable:          Enable/Disable this service.
 # $pubkey:          The public key to be used for this service.
-#                   (installed on remote host via exported resource)
+#                   (installed on remote host via exported resource or used on localhost
+#                     Depends on the direction...)
 # $enable_host_ssh_config: enable host specific configs
 # $ssh_reuse_established_connections  =  $enable_ssh_reuse: default enable
 #                   reuse of already established ssh connections, if any.
@@ -28,6 +29,8 @@
 # $ssh_ciphers      = set chiper path from lest to most expensive
 # ssh_stricthostkeychecking = enable/disable strict host key checking
 # $ssh_tcpkeepalives: enable/disable tcp keepalives
+# $server_alive_interval: autossh server alive interval. Devaults to 30 seconds.
+# $server_alive_count_max: autossh server alive per interval counter. Defaults to 3.
 #
 # === Variables
 #
@@ -50,6 +53,7 @@
 #
 # Jason Ball <jason@ball.net>
 # Aimon Bustardo -- forked from https://github.com/aimonb/puppet-autossh.git
+# Gerard Castillo <gerardcl@gmail.com> -- forked from https://github.com/agronaught/puppet-autossh
 #
 # === Copyright
 #
@@ -75,11 +79,13 @@ define autossh::tunnel(
   $ssh_ciphers            = $autossh::params::ssh_ciphers,
   $ssh_stricthostkeychecking = $autossh::params::ssh_stricthostkeychecking,
   $ssh_tcpkeepalives = $autossh::params::ssh_tcpkeepalives,
+  $server_alive_interval = $autossh::params::server_alive_interval,
+  $server_alive_count_max = $autossh::params::server_alive_count_max,
 ){
   $tun_name     = $title
   $tunnel_args  = $tunnel_type ? {
-    'reverse' => "-M ${monitor_port} -f -N -R",
-    'forward' => "-M ${monitor_port} -f -N -L"
+    'reverse' => "-M ${monitor_port} -N -T -o \'ServerAliveInterval ${server_alive_interval}\' -o \'ServerAliveCountMax ${server_alive_count_max}\' -R",
+    'forward' => "-M ${monitor_port} -N -T -o \'ServerAliveInterval ${server_alive_interval}\' -o \'ServerAliveCountMax ${server_alive_count_max}\' -L"
   }
 
   file{"autossh-${tun_name}_conf":
@@ -89,7 +95,16 @@ define autossh::tunnel(
     owner   => $user,
     group   => $user,
     content => template('autossh/autossh.conf.erb'),
-    notify  => Service["autossh-${tun_name}"],
+  }
+  if ($tunnel_type == 'forward') {
+    file {"/home/${user}/.ssh/id_rsa_${tun_name}":
+      ensure  => file,
+      owner   => $user,
+      group   => $user,
+      mode    => "0600",
+      content => $pubkey,
+      replace => no,
+    }
   }
 
   #

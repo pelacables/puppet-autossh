@@ -1,14 +1,10 @@
 [Unit]
-Description="Autossh service - <%= @tun_name %>"
-After="network.service"
+Description=Autossh service - <%= @tun_name %>
+After=network.target
 
 [Service]
-TimeoutStopSec=3
-ExecStart=/etc/autossh/autossh-tunnel.sh start <%= @tun_name %>
-PIDFile=/var/run/autossh-<%= @tun_name %>
-KillSignal=9
-Restart=always
-RestartSec=10
+User=<%= @user %>
+ExecStart=/usr/bin/autossh <%= @tunnel_args %> <%= @bind %>:<%= @port %>:<%= @forward_host %>:<%= @hostport %> -p <%= @remote_ssh_port %> -i /home/<%= @user %>/.ssh/id_rsa_<%= @tun_name %> <%= @remote_ssh_user %>@<%= @remote_ssh_host %>
 
 [Install]
 WantedBy=multi-user.target

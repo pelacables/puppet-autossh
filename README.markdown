@@ -1,17 +1,17 @@
-##autossh
+# autossh
 
-The autossh module facilitates the automated management of ssh based port forward between nodes.  The ssh tunnels are run via the 'autossh' wrapper 
+The autossh module facilitates the automated management of ssh based port forward between nodes.  The ssh tunnels are run via the 'autossh' wrapper
 which starts/monitors and restarts the tunnels if and when they close.   This service:
 
 * Installs the required package support.
 * Configures the 'autossh' configuration file.
-* Creates a system initialsation script (init script).
+* Creates a system initialization script (init script).
 * exports resources to automate the configuration of the 'remote' nodes.
 * automatically configures remote nodes to provide a secure tunnel capability.
 
-This module was initially based on the following module(s) from the puppet forge:
+Original module was initially based on the following module(s) from the puppet forge:
 
-    aimonb/autosshdd
+- agronaught/puppet-autossh
 
 However this module has been rewritten to provide:
 
@@ -19,179 +19,180 @@ However this module has been rewritten to provide:
 * Support for Hiera integration
 * Support for configuration of the 'tunnel endpoint'
 * Secure configuration of the tunnel endpoint.
-* Customistion of the important ssh configurations for the ssh tunnels.
+* Customization of the important ssh configurations for the ssh tunnels.
 
-As tested this module can support any number of ssh tunnels on any given host, and automatically syncronises the tunnel endpoints providing both nodes connect to the same puppetdb.
+As tested this module can support any number of ssh tunnels on any given host, and automatically synchronizes the tunnel endpoints providing both nodes connect to the same puppetdb.
 
-The 'autossh' service provides a reliability and monitoring capability for the ssh tunnels, this includes monitoring the link via a separate 'monitoring ports' if configured and automatically restarting the ssh session if it fails due to an abnormal termination or error detected on the monitoring port.   I'm gradually adding more functionality here to support customisation of the ssh parameters to watch this space as the module develops.
+The 'autossh' service provides a reliability and monitoring capability for the ssh tunnels, this includes monitoring the link via a separate 'monitoring ports' if configured and automatically restarting the ssh session if it fails due to an abnormal termination or error detected on the monitoring port.   I'm gradually adding more functionality here to support customization of the ssh parameters to watch this space as the module develops.
 
 Management of the private key is left to you as care needs to be taken to ensure this private key is adequately protected.  I've encrypted the private key using eyaml and find this a convenient approach but that does depend on having hiera configured correctly.
 
-## Credits
 
-Original Module: Aimon Bustardo (https://github.com/aimonb/puppet-autossh)
-Contributors: Jason Ball
-              James Belchamber
+## Classes
 
-##Classes
-
-autossh
-----
+### autossh
 
 The 'autossh' class configures the autossh environment, installs the required package support, and configures the global ssh options to be applied to ssh sessions.
 
 This class needs to be run on all nodes using autossh.
 
 ```
-Class {'::autossh': 
+Class {'::autossh':
 }
 ```
 
-#####`user`
+##### `user`
 
-The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to `autossh`
+The linux user account to be used to run the ssh sessions. We recommend using the default, that defaults to `autossh` user. You can distinguish different tunnels by the tunnel name.
 
-#####`autossh_version`
+##### `autossh_package`
 
-The version of autossh to install.  Only applies when the packaged autossh rpm is installed on systems lacking autossh support.
+The autossh rpm package name.  Default uses already available rpm. Current version is latest stable, version 1.4.
 
-#####`autossh_build`
- 
-The package build to install.  Only applies when the packaged autossh rpm is installed on systems lacking autossh support.
-
-#####`autossh_package`
-
-The autossh rpm package name.  Only apples when the packaged autossh rpm is installed on systems lacking autossh support.
-
-#####`init_template`
+##### `init_template`
 
 The template to use for the system init script.  Shouldn't need to change this.
 
-#####`enable`
+##### `enable`
 
 Enable/Disable this package and service.  This functionality is gradually being added, not overly useful right now.
 
-#####`ssh_reuse_established_connections`
+##### `ssh_reuse_established_connections`
 
 Enables ssh connection reuse if an established connection already exists to the target host.  This can speed up the time it takes to make the connection, note that this is only supported on 'openssh' > 5.5
 
-#####`ssh_enable_compression`
+##### `ssh_enable_compression`
 
 Enables/Disables ssh compression in the tunnel.   Connections over slow links may benefit from compression, local lan connections are probably better off without it.
 
-#####`ssh_ciphers`
+##### `ssh_ciphers`
 
 Sets the cipher ordering for the ssh sessions.   The default is from 'fastest' to 'slowest'.
 
-#####`ssh_stricthostkeychecking`
+##### `ssh_stricthostkeychecking`
 
 By default host key checking is disabled to enable connections to proceed without error. Without this setting an admin would need to ensure the target server was in the known hosts file.
 
-#####`ssh_tcpkeepalives`
+##### `ssh_tcpkeepalives`
 
 Enable/Disable TCP Keepalives to prevent firewalls from closing the tunnel.
 
-autossh::tunnel
-----
+##### `server_alive_interval`
+
+Autossh server alive interval. Defaults to 30 seconds.
+
+##### `server_alive_count_max`
+
+Autossh server alive per interval counter. Defaults to 3.
+
+
+### autossh::tunnel
+
 
 Create a tunnel on the host including the necessary init scripts to start and stop the service.  Optionally ssh parameters can be customised on a per host basis.
 
 ```
-  autossh::tunnel { 'port_25_tunnel_to_server1': 
+  autossh::tunnel { 'port_25_tunnel_to_server1':
     port             => '25',
     hostport         => '25',
     remote_ssh_host  => 'server1',
     pubkey           => 'ssh-dss <OMITTED>'
-  } 
+  }
 ```
 
-#####`user`
+##### `user`
 
-The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to `autossh`
+The linux user account to be used to run the ssh sessions. We recommend using the default, that defaults to `autossh` user. You can distinguish different tunnels by the tunnel name. Must be the same as the one used by autossh class.
 
-#####`tunnel_type`
+##### `tunnel_type`
 
-The direction of the ssh tunnel.  'forward' for 'host --> target' and 'reverse' for 'target` --> 'host'
+The direction of the ssh tunnel.  'forward' for 'host --> target' and 'reverse' for 'target' --> 'host'
 
-#####`port`
+##### `port`
 
 The local port to be used for the ssh tunnel
 
-#####`hostport`
+##### `hostport`
 
 The remote port to be used for the ssh tunnel
 
-#####`remote_ssh_host`
+##### `remote_ssh_host`
 
 The remote host/ip to connect to for the tunnel.
 
-#####`remote_ssh_port`
+##### `remote_ssh_port`
 
 The remote port to connect to for the tunnel.
 
-#####`monitor_port`
+##### `monitor_port`
 
 The port(s) to use for the autossh monitoring functionality.   2 ports are actually used, the base port and the base port + 1 (.i.e. 20000 and 20001).
 
-#####`pubkey`
+##### `pubkey`
 
 The public key to use for the authentication of this connection.
 
-#####`enable`
+##### `enable`
 
 Enable/Disable this package and service.  This functionality is gradually being added, not overly useful right now.
 
-#####`enable_host_ssh_config`
+##### `enable_host_ssh_config`
 
 Enable host specific ssh configurations.  This will override the global settings created in the autossh class.
 
-#####`ssh_reuse_established_connections`
+##### `ssh_reuse_established_connections`
 
 Enables ssh connection reuse if an established connection already exists to the target host.  This can speed up the time it takes to make the connection, note that this is only supported on 'openssh' > 5.5
 
-#####`ssh_enable_compression`
+##### `ssh_enable_compression`
 
 Enables/Disables ssh compression in the tunnel.   Connections over slow links may benefit from compression, local lan connections are probably better off without it.
 
-#####`ssh_ciphers`
+##### `ssh_ciphers`
 
 Sets the cipher ordering for the ssh sessions.   The default is from 'fastest' to 'slowest'.
 
-#####`ssh_stricthostkeychecking`
+##### `ssh_stricthostkeychecking`
 
 By default host key checking is disabled to enable connections to proceed without error. Without this setting an admin would need to ensure the target server was in the known hosts file.
 
-#####`ssh_tcpkeepalives`
+##### `ssh_tcpkeepalives`
 
 Enable/Disable TCP Keepalives to prevent firewalls from closing the tunnel.
 
-autossh::endpoint
-----
+##### `server_alive_interval`
+
+Autossh server alive interval. Defaults to 30 seconds.
+
+##### `server_alive_count_max`
+
+Autossh server alive per interval counter. Defaults to 3.
+
+### autossh::endpoint
+
 
 Configure the endpoint (target) for an ssh connection.   This class is run on the destination nodes for any ssh tunnels.
 
 ```
 
- autossh::endpoint  { 'createtunnels': 
+ autossh::endpoint  { 'createtunnels':
    user   => 'autossh',
    host   => 'server1.foo.bar',
  }
 
 ```
 
-#####`user`
+##### `user`
 
-The linux user account to be used to run the ssh sessions.  Ideally this should be a service account, defaults to 'autossh'
+The linux user account to be used to run the ssh sessions. We recommend using the default, that defaults to `autossh` user. You can distinguish different tunnels by the tunnel name. Must be the same as the one used by autossh class.
 
-#####`host`
+##### `host`
 
-The hostname/ip address specified in the 'authssh::tunnel', this is used to filter the tunnel::enpoint exported resources.
+The hostname/ip address specified in the 'authssh::tunnel', this is used to filter the tunnel::endpoint exported resources.
 
+## Examples
 
-##Examples 
-
-Simple Example
-------
+### Simple Example
 
 The simple example creates a single ssh tunnel between two nodes, starting at the origin and terminating at the 'destination' using DSL only:
 
@@ -206,12 +207,12 @@ for the run user (default: /home/autossh/.ssh/) and the public key used when con
   class { '::autossh':
   }
 
-  autossh::tunnel { 'port_25_tunnel_to_server1': 
+  autossh::tunnel { 'port_25_tunnel_to_server1':
     port             => '25',
     hostport         => '25',
     remote_ssh_host  => 'server1',
     pubkey           => 'ssh-dss <OMITTED>'
-  } 
+  }
 ```
 
 **Destination Node**
@@ -220,16 +221,15 @@ for the run user (default: /home/autossh/.ssh/) and the public key used when con
   class { '::autossh':
   }
 
-  autossh::endpoint { 'load ssh endpoints': 
+  autossh::endpoint { 'load ssh endpoints':
     host   => 'server1',
   }
 ```
-     
 
 
 
-Complex Example
-------
+
+### Complex Example
 
 The following example creates multiple ssh port forwards between two nodes, the Origin and Destination using DSL and Hiera.  This example also includes the installation of the private key which is stored using hiera-eyaml and default values to reduce the specific instance configuration.
 
@@ -238,7 +238,7 @@ The following example creates multiple ssh port forwards between two nodes, the 
 ```
   $autossh_user = hiera('autossh::user')
 
-  class { '::autossh': 
+  class { '::autossh':
     user => $autossh_user
   }
 
@@ -292,7 +292,7 @@ autossh::defaults:
 class capability::autosshtarget {
   $autossh_user = hiera('autossh::user')
 
-  class { '::autossh': 
+  class { '::autossh':
     user => $autossh_user
   }
 
