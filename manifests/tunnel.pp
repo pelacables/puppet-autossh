@@ -142,6 +142,18 @@ define autossh::tunnel(
       }
     } # case Redhat
 
+    /Debian/: {
+      file{"systemd-service-${tun_name}":
+        ensure  => 'present',
+        path    => "/etc/systemd/system/autossh-${tun_name}.service",
+        mode    => '0750',
+        owner   => 'root',
+        group   => 'root',
+        content => template('autossh/autossh.service.erb'),
+        notify  => Service["autossh-${tun_name}"],
+      }
+    } # case Debian
+
     default: {
     } # default
   } # end case osfamily
