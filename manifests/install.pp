@@ -3,10 +3,6 @@
 # This class initilises the runtime environment for the autossh package and
 # should not be called directly as it is called from the class initialiser.
 #
-# === Parameters
-#
-# === Variables
-#
 # === Examples
 #
 #  class { autossh:
@@ -20,18 +16,17 @@
 # === Copyright
 #
 # Copyright 2014 Jason Ball.
-#
+
 class autossh::install {
-  $user                   = $autossh::user
-  $autossh_package        = $autossh::autossh_package
-  $ssh_reuse_established_connections =
-    $autossh::ssh_reuse_established_connections
-  $ssh_enable_compression = $autossh::ssh_enable_compression
-  $ssh_ciphers            = $autossh::ssh_ciphers
-  $ssh_stricthostkeychecking = $autossh::ssh_stricthostkeychecking
-  $ssh_tcpkeepalives = $autossh::ssh_tcpkeepalives
-  $server_alive_interval = $autossh::server_alive_interval
-  $server_alive_count_max = $autossh::server_alive_count_max
+  $user                              = $autossh::user
+  $autossh_package                   = $autossh::autossh_package
+  $ssh_reuse_established_connections = $autossh::ssh_reuse_established_connections
+  $ssh_enable_compression            = $autossh::ssh_enable_compression
+  $ssh_ciphers                       = $autossh::ssh_ciphers
+  $ssh_stricthostkeychecking         = $autossh::ssh_stricthostkeychecking
+  $ssh_tcpkeepalives                 = $autossh::ssh_tcpkeepalives
+  $server_alive_interval             = $autossh::server_alive_interval
+  $server_alive_count_max            = $autossh::server_alive_count_max
 
   ## If the target user account doesn't exist, create it...
   if ! defined(User[$user]) {
@@ -76,10 +71,13 @@ class autossh::install {
         }
       }
 
+      # This package is managed by the ssh module.
+      # better if we add a dependecy to it instead of
+      # decalring it here.
       # required on all rhel platforms
-      if(!defined(Package['openssh-clients'])) {
-        package{'openssh-clients': ensure => installed }
-      }
+      #if(!defined(Package['openssh-clients'])) {
+      #  package{'openssh-clients': ensure => installed }
+      #}
 
       package{'autossh': ensure => installed }
     } #case RedHat

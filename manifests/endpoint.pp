@@ -1,4 +1,4 @@
-# == Class: autossh::endpoint
+# == Define: autossh::endpoint
 #
 # Creates the endpoint files (authorized_keys) for an ssh tunnel.  This 
 # class should be run on any 'target' hosts for ssh tunnels.
@@ -9,11 +9,12 @@
 # 
 # === Parameters
 #
-# $user = The local user account to use to terminate the ssh tunnel.
-# $host = the host name to use to filter the tunnel_endpoint exported resources
-# .  This should match the 'host' used on the initiating node.
+# *$user 
+# The local user account to use to terminate the ssh tunnel.
 #
-# === Variables
+# *$host
+# The host name to use to filter the tunnel_endpoint exported resources
+# This should match the 'host' used on the initiating node.
 #
 # === Examples
 #
@@ -29,15 +30,17 @@
 # === Copyright
 #
 # Copyright 2014 Jason Ball.
+
 define autossh::endpoint(
   $host,
   $user = $autossh::user,
-)
-{
+) {
   concat { "/home/${user}/.ssh/authorized_keys":
     owner => $user,
     group => $user,
     mode  => '0600',
   }
+
   Autossh::Tunnel_endpoint <<| host == $host |>>
+
 }

@@ -1,4 +1,4 @@
-# == Class: autossh::tunnel
+# == Define: autossh::tunnel
 #
 # Defines an ssh tunnel resource.  This class is run on the node that
 # 'initiates' the ssh tunnel and
@@ -8,32 +8,63 @@
 #
 # === Parameters
 #
-# $user:            The user account to use to run the ssh tunnel
-# $tunnel_type:     The tunnel direction. (forward --> local port to
-#                   remote port, backward = remote port --> local port)
-# $port:            The local port to be used for the tunnel.
-# $hostport:        The remote port to be used for the tunnel.
-# $remote_ssh_host: The remote host to connect to.
-# $remote_ssh_port: The remote ssh port to connect to.
-# $monitor_port:    Used by autossh to test the state of connections
-#                   via an echo.
-# $enable:          Enable/Disable this service.
-# $pubkey:          The public key to be used for this service.
-#                   (installed on remote host via exported resource or used on localhost
-#                     Depends on the direction...)
-# $enable_host_ssh_config: enable host specific configs
-# $ssh_reuse_established_connections  =  $enable_ssh_reuse: default enable
-#                   reuse of already established ssh connections, if any.
-#                   Requires openssh > 5.5.
-# $ssh_enable_compression = enable/disable compression
-# $ssh_ciphers      = set chiper path from lest to most expensive
-# ssh_stricthostkeychecking = enable/disable strict host key checking
-# $ssh_tcpkeepalives: enable/disable tcp keepalives
-# $server_alive_interval: autossh server alive interval. Devaults to 30 seconds.
-# $server_alive_count_max: autossh server alive per interval counter. Defaults to 3.
+# *$user
+# The user account to use to run the ssh tunnel
 #
-# === Variables
+# *$tunnel_type
+# The tunnel direction. (forward --> local port to
+# remote port, backward = remote port --> local port)
 #
+# *$port
+# The local port to be used for the tunnel.
+#
+# *$hostport
+# The remote port to be used for the tunnel.
+#
+# *$remote_ssh_host
+# The remote host to connect to.
+#
+# *$remote_ssh_port
+# The remote ssh port to connect to.
+#
+# *$monitor_port
+# Used by autossh to test the state of connections
+# via an echo.
+#
+# *$enable
+# Enable/Disable this service.
+#
+# *$pubkey
+# The public key to be used for this service.
+# (installed on remote host via exported resource or used on localhost
+# Depends on the direction...)
+#
+# *$enable_host_ssh_config
+# enable host specific configs
+#
+# *$ssh_reuse_established_connections
+#
+# *$enable_ssh_reuse: default enable
+# reuse of already established ssh connections, if any.
+# Requires openssh > 5.5.
+#
+# *$ssh_enable_compression
+# enable/disable compression
+#
+# *$ssh_ciphers
+# set chiper path from lest to most expensive
+#
+# *$ssh_stricthostkeychecking
+# enable/disable strict host key checking
+#
+# *$ssh_tcpkeepalives
+# enable/disable tcp keepalives
+#
+# *$server_alive_interval
+# autossh server alive interval. Devaults to 30 seconds.
+#
+# *$server_alive_count_max
+# autossh server alive per interval counter. Defaults to 3.
 #
 # === Examples
 #
@@ -58,30 +89,29 @@
 # === Copyright
 #
 # Copyright 2014 Jason Ball.
-#
+
 define autossh::tunnel(
   $port,
   $hostport,
   $remote_ssh_host,
-  $remote_ssh_user  = $autossh::params::remote_ssh_user,
-  $bind             = $autossh::params::bind,
-  $forward_host     = $autossh::params::forward_host,
-  $user             = $autossh::params::user,
-  $tunnel_type      = $autossh::params::tunnel_type,
-  $remote_ssh_port  = $autossh::params::remote_ssh_port,
-  $monitor_port     = $autossh::params::monitor_port,
-  $enable           = $autossh::params::enable,
-  $pubkey           = $autossh::params::pubkey,
-  $enable_host_ssh_config = false,
-  $ssh_reuse_established_connections =
-    $autossh::params::ssh_reuse_established_connections,
-  $ssh_enable_compression = $autossh::params::ssh_enable_compression,
-  $ssh_ciphers            = $autossh::params::ssh_ciphers,
-  $ssh_stricthostkeychecking = $autossh::params::ssh_stricthostkeychecking,
-  $ssh_tcpkeepalives = $autossh::params::ssh_tcpkeepalives,
-  $server_alive_interval = $autossh::params::server_alive_interval,
-  $server_alive_count_max = $autossh::params::server_alive_count_max,
-){
+  $remote_ssh_user                   = $autossh::params::remote_ssh_user,
+  $bind                              = $autossh::params::bind,
+  $forward_host                      = $autossh::params::forward_host,
+  $user                              = $autossh::params::user,
+  $tunnel_type                       = $autossh::params::tunnel_type,
+  $remote_ssh_port                   = $autossh::params::remote_ssh_port,
+  $monitor_port                      = $autossh::params::monitor_port,
+  $enable                            = $autossh::params::enable,
+  $pubkey                            = $autossh::params::pubkey,
+  $enable_host_ssh_config            = false,
+  $ssh_reuse_established_connections = $autossh::params::ssh_reuse_established_connections,
+  $ssh_enable_compression            = $autossh::params::ssh_enable_compression,
+  $ssh_ciphers                       = $autossh::params::ssh_ciphers,
+  $ssh_stricthostkeychecking         = $autossh::params::ssh_stricthostkeychecking,
+  $ssh_tcpkeepalives                 = $autossh::params::ssh_tcpkeepalives,
+  $server_alive_interval             = $autossh::params::server_alive_interval,
+  $server_alive_count_max            = $autossh::params::server_alive_count_max,
+) {
   $tun_name     = $title
   $tunnel_args  = $tunnel_type ? {
     'reverse' => "-M ${monitor_port} -N -T -o \'ServerAliveInterval ${server_alive_interval}\' -o \'ServerAliveCountMax ${server_alive_count_max}\' -R",

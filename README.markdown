@@ -27,6 +27,9 @@ The 'autossh' service provides a reliability and monitoring capability for the s
 
 Management of the private key is left to you as care needs to be taken to ensure this private key is adequately protected.  I've encrypted the private key using eyaml and find this a convenient approach but that does depend on having hiera configured correctly.
 
+## Dependecies
+
+This module needs ssh module to install openssh-client
 
 ## Classes
 
