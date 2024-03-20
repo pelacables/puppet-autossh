@@ -165,6 +165,17 @@ define autossh::tunnel(
             content => template('autossh/autossh.service.erb'),
             notify  => Service["autossh-${tun_name}"],
           }
+
+        /9/: {
+          file{"systemd-service-${tun_name}":
+            ensure  => 'present',
+            path    => "/etc/systemd/system/autossh-${tun_name}.service",
+            mode    => '0750',
+            owner   => 'root',
+            group   => 'root',
+            content => template('autossh/autossh.service.erb'),
+            notify  => Service["autossh-${tun_name}"],
+          }
         }
 
         default: {
