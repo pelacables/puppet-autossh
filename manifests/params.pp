@@ -29,7 +29,7 @@ class autossh::params {
   $monitor_port                      = '0'
   $ssh_reuse_established_connections = false
   $ssh_enable_compression            = false
-  $ssh_ciphers                       = 'blowfish-cbc,aes128-cbc,3des-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc,aes128-ctr,aes192-ctr,aes256-ctr'
+  $ssh_ciphers                       = 'aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc,aes128-ctr,aes192-ctr,aes256-ctr'
   $ssh_stricthostkeychecking         = false
   $ssh_tcpkeepalives                 = true
   $server_alive_interval             = '30'
