@@ -46,6 +46,10 @@ class autossh::params {
           $autossh_package = 'autossh'
           $init_template = 'autossh.init.systemd.erb'
         }
+        /9/: {
+          $autossh_package = 'autossh'
+          $init_template = 'autossh.init.systemd.erb'
+        }
         default: {
           fail("Error - Unsupported OS Version: ${::operatingsystemrelease}")
         }
