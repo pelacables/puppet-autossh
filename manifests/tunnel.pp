@@ -165,6 +165,7 @@ define autossh::tunnel(
             content => template('autossh/autossh.service.erb'),
             notify  => Service["autossh-${tun_name}"],
           }
+        }
 
         /9/: {
           file{"systemd-service-${tun_name}":
@@ -176,7 +177,7 @@ define autossh::tunnel(
             content => template('autossh/autossh.service.erb'),
             notify  => Service["autossh-${tun_name}"],
           }
-
+        }
         default: {
         }
       }
